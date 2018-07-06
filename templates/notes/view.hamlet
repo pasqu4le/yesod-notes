@@ -1,0 +1,4 @@
+<div .container well>
+    $maybe existingTitle <- noteTitle note
+        <h1>#{existingTitle}
+    <p>Your note has this content: #{noteContent note}

@@ -1,0 +1,35 @@
+$(function() {
+  $("##{rawJS newNoteFormId}").submit(function(event) {
+    event.preventDefault();
+
+    var title = $("##{rawJS newNoteTitleId}").val();
+    var content = $("##{rawJS newNoteContentId}").val();
+    // (Browsers that enforce the "required" attribute on the textarea won't see this alert)
+    if (!content) {
+      alert("Please fill out your new note content first.");
+      return;
+    }
+
+    // Make an AJAX request to the server to create a new note
+    $.ajax({
+      url: '@{AddNoteR}',
+      type: 'POST',
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify({
+        title: title,
+        content: content,
+      }),
+      success: function (data) {
+        var newNode = $("<li></li>");
+        newNode.text(data.content);
+        console.log(data);
+        $("##{rawJS noteListId}").prepend(newNode);
+      },
+      error: function (data) {
+        console.log("Error creating note: " + data);
+      },
+    });
+
+  });
+});

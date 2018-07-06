@@ -1,0 +1,9 @@
+<div .container>
+    <div .row>
+        <div .well>
+            ^{newNoteWidget}
+    <div .row>
+        <div>
+            <ul ##{noteListId}>
+                $forall Entity _ note <- noteList
+                    <li> content: #{noteContent note}

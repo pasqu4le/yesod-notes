@@ -1,0 +1,6 @@
+<form .form-horizontal ##{newNoteFormId}>
+    <div .field>
+        <input type="text" ##{newNoteTitleId} placeholder="Title"></textarea>
+    <div .field>
+        <textarea rows="2" ##{newNoteContentId} placeholder="Content" required></textarea>
+    <button .btn.btn-primary type=submit> Add note

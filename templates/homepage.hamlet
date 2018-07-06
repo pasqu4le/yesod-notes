@@ -1,0 +1,11 @@
+<div .masthead>
+    <div .container>
+        <div .row>
+            <h1 .header>
+                Yesod—notes: blazing fast note-taking
+
+<div .container>
+    <div .row>
+            <h1 .header>
+                Something something
+            <a href=@{NotesR}>Here are your notes
