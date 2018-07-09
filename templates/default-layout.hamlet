@@ -1,50 +1,40 @@
 
 <!-- Static navbar -->
-<nav .navbar.navbar-default.navbar-static-top>
-    <div .container>
-        <div .navbar-header>
-            <button type="button" .navbar-toggle.collapsed data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+<nav .navbar.is-fixed-top.is-dark>
+    <div .container>    
+        <div .navbar-brand>
+            <a href="@{HomeR}" .navbar-item>Yesod-notes
+            $forall MenuItem label route _ <- navbarLeftFilteredMenuItems
+                <a href="@{route}" :Just route == mcurrentRoute:.active.navbar-item>#{label}
 
-        <div #navbar .collapse.navbar-collapse>
-            <ul .nav.navbar-nav>
-                $forall MenuItem label route _ <- navbarLeftFilteredMenuItems
-                    <li :Just route == mcurrentRoute:.active>
-                        <a href="@{route}">#{label}
-
-            <ul .nav.navbar-nav.navbar-right>
+        <div .navbar-menu>
+            <div .navbar-end>
                 $forall MenuItem label route _ <- navbarRightFilteredMenuItems
-                    <li :Just route == mcurrentRoute:.active>
-                        <a href="@{route}">#{label}
+                    <a href="@{route}" :Just route == mcurrentRoute:.active.navbar-item>#{label}
 
 <!-- Page Contents -->
 
-<div .container>
-    $if not $ Just HomeR == mcurrentRoute
-        <ul .breadcrumb>
-            $forall bc <- parents
-                <li>
-                    <a href="@{fst bc}">#{snd bc}
+$if not $ Just HomeR == mcurrentRoute
+    <section .section.container>
+        <div .breadcrumb.notification aria-label="breadcrumbs">
+            <ul>
+                $forall bc <- parents
+                    <li>
+                        <a href="@{fst bc}">#{snd bc}
+                <li .is-active>#{title}
 
-            <li .active>#{title}
-
-    $maybe msg <- mmsg
-      <div .alert.alert-info #message>#{msg}
-
+$maybe msg <- mmsg
+    <div .container.notification.is-info #message>
+        <button .delete></button>
+        #{msg}
 
 $if (Just HomeR == mcurrentRoute)
     ^{widget}
 $else
     <div .container>
-        <div .row>
-            <div .col-md-12>
-                ^{widget}
+        ^{widget}
 
 <!-- Footer -->
 <footer .footer>
-    <div .container>
-        <p .text-muted>
-            #{appCopyright $ appSettings master}
+    <div .content.has-text-centered>
+        <p>#{appCopyright $ appSettings master}

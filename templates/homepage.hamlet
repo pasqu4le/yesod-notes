@@ -1,11 +1,8 @@
-<div .masthead>
-    <div .container>
-        <div .row>
-            <h1 .header>
-                Yesod—notes: blazing fast note-taking
+<section .hero.is-dark.is-medium>
+    <div .hero-body>
+        <div .container.has-text-centered>
+            <h1 .title> Yesod—notes: blazing fast note-taking
 
-<div .container>
-    <div .row>
-            <h1 .header>
-                Something something
-            <a href=@{NotesR}>Here are your notes
+<div .container.has-text-centered>
+    <h1 .title>Something something
+    <a href=@{NotesR} .subtitle>Here are your notes

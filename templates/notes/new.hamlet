@@ -1,6 +1,11 @@
-<form .form-horizontal ##{newNoteFormId}>
-    <div .field>
-        <input type="text" ##{newNoteTitleId} placeholder="Title"></textarea>
-    <div .field>
-        <textarea rows="2" ##{newNoteContentId} placeholder="Content" required></textarea>
-    <button .btn.btn-primary type=submit> Add note
+<div .box>
+    <form .form ##{newNoteFormId}>
+        <div .field>
+            <div .control>
+                <input .input type="text" ##{newNoteTitleId} placeholder="Title">
+        <div .field>
+            <div .control>
+                <textarea .textarea rows="2" ##{newNoteContentId} placeholder="Content" required>
+        <hr>
+        <div .buttons.is-right>
+            <button .button.is-primary type=submit> Add note

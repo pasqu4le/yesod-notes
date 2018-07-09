@@ -6,7 +6,7 @@
 module Handler.AddNote where
 
 import Import
-import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3, bfs)
+import qualified Form.Bulma as Bulma
 import Data.Aeson (withObject)
 
 data NoteForm = NoteForm
@@ -48,6 +48,6 @@ postAddNoteR = do
 
 
 noteForm :: Form NoteForm
-noteForm = renderBootstrap3 BootstrapBasicForm $ NoteForm
-    <$> aopt textField (bfs ("Title" :: Text)) Nothing
-    <*> areq textareaField (bfs ("Content" :: Text)) Nothing
+noteForm = Bulma.render $ NoteForm
+    <$> aopt textField (Bulma.inputSetting "Title") Nothing
+    <*> areq textareaField (Bulma.textareaSetting "Content") Nothing

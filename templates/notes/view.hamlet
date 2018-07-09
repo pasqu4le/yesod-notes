@@ -1,4 +1,7 @@
-<div .container well>
+<div .box>
     $maybe existingTitle <- noteTitle note
-        <h1>#{existingTitle}
-    <p>Your note has this content: #{noteContent note}
+        <h1 .title>#{existingTitle}
+    <p .content>#{noteContent note}
+    <hr>
+    <div .buttons.is-right>
+        <a .button.is-primary href="@{EditNoteR noteId}"> Edit

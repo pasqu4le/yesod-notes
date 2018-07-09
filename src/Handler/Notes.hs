@@ -20,3 +20,6 @@ getNotesR = do
             newNoteWidget = $(widgetFile "notes/new")
         setTitle "My Notes"
         $(widgetFile "notes/list")
+
+noteTileWidget :: Note -> NoteId -> Widget
+noteTileWidget note noteId = $(widgetFile "notes/view")

@@ -3,10 +3,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE QuasiQuotes #-}
 module Handler.EditNote where
 
 import Import
-import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3, bfs)
+import qualified Form.Bulma as Bulma
 
 data NoteForm = NoteForm
     { noteFormTitle :: Maybe Text
@@ -33,7 +34,8 @@ postEditNoteR noteId = do
             setTitle "Edit note"
             $(widgetFile "notes/edit")
 
+-- TODO: take a look at this
 noteForm :: Note -> Form NoteForm
-noteForm note = renderBootstrap3 BootstrapBasicForm $ NoteForm
-    <$> aopt textField (bfs ("Title" :: Text)) (Just $ noteTitle note)
-    <*> areq textareaField (bfs ("Content" :: Text)) (Just . Textarea $ noteContent note)
+noteForm note = Bulma.render $ NoteForm
+    <$> aopt textField (Bulma.inputSetting "Title") (Just $ noteTitle note)
+    <*> areq textareaField (Bulma.textareaSetting "Content") (Just . Textarea $ noteContent note)
