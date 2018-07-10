@@ -15,16 +15,13 @@ $(function() {
       url: '@{AddNoteR}',
       type: 'POST',
       contentType: "application/json",
-      dataType: "json",
       data: JSON.stringify({
         title: title,
         content: content,
       }),
       success: function (data) {
-        var newNode = $("<li></li>");
-        newNode.text(data.content);
         console.log(data);
-        $("##{rawJS noteListId}").prepend(newNode);
+        $("##{rawJS noteListId}").prepend(data);
       },
       error: function (data) {
         console.log("Error creating note: " + data);

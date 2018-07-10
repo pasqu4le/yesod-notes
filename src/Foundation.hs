@@ -111,9 +111,9 @@ instance Yesod App where
         -- Define the menu items of the header.
         let menuItems =
                 [ NavbarLeft $ MenuItem
-                    { menuItemLabel = "Home"
-                    , menuItemRoute = HomeR
-                    , menuItemAccessCallback = True
+                    { menuItemLabel = "Notes"
+                    , menuItemRoute = NotesR
+                    , menuItemAccessCallback = isJust muser
                     }
                 , NavbarLeft $ MenuItem
                     { menuItemLabel = "Profile"
@@ -221,7 +221,17 @@ instance YesodBreadcrumbs App where
     breadcrumb HomeR = return ("Home", Nothing)
     breadcrumb (AuthR _) = return ("Login", Just HomeR)
     breadcrumb ProfileR = return ("Profile", Just HomeR)
-    breadcrumb  _ = return ("home", Nothing)
+    breadcrumb NotesR = return ("Notes", Just HomeR)
+    breadcrumb (NoteR noteId) = do
+        maybeNote <- runDB $ get noteId
+        case maybeNote of
+            Just note -> case noteTitle note of
+                Just title -> return (title, Just NotesR)
+                _ -> return ("Your note", Just NotesR)
+            _ -> return ("Note not found", Just NotesR)
+    breadcrumb AddNoteR = return ("Add", Just NotesR)
+    breadcrumb (EditNoteR noteId) = return ("Edit", Just $ NoteR noteId)
+    breadcrumb  _ = return ("Home", Nothing)
 
 -- How to run database actions.
 instance YesodPersist App where

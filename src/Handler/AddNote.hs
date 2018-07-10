@@ -3,9 +3,11 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE QuasiQuotes #-}
 module Handler.AddNote where
 
 import Import
+import qualified Network.Wai as Wai
 import qualified Form.Bulma as Bulma
 import Data.Aeson (withObject)
 
@@ -26,25 +28,55 @@ getAddNoteR = do
         setTitle "Add a note"
         $(widgetFile "notes/add")
 
+-- TODO: check if is Ajax with X-Requested-With
 postAddNoteR :: Handler TypedContent
 postAddNoteR = do
+    req <- waiRequest
+    let reqwith = lookup "X-Requested-With" $ Wai.requestHeaders req
+    if maybe False (== "XMLHttpRequest") reqwith then
+        selectRep $ provideRep postAddNoteAJAX
+    else
+        selectRep $ do
+            provideRep postAddNoteHTML
+            provideRep postAddNoteJSON
+
+postAddNoteHTML :: Handler Html
+postAddNoteHTML = do
     uid <- requireAuthId
-    selectRep $ do
-        provideRep $ do
-            ((result, formWidget), formEnctype) <- runFormPost noteForm
-            case result of
-                FormSuccess res -> do
-                    let newNote = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
-                    note <- runDB $ insertEntity newNote
-                    redirect $ NoteR (entityKey note)
-                _ -> defaultLayout $ do
-                    setTitle "Add a note!"
-                    $(widgetFile "notes/add")
-        provideRep $ do
-            res <- (requireJsonBody :: Handler NoteForm)
-            let note = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
-            insertedNote <- runDB $ insertEntity note
-            returnJson insertedNote
+    ((result, formWidget), formEnctype) <- runFormPost noteForm
+    case result of
+        FormSuccess res -> do
+            let newNote = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
+            note <- runDB $ insertEntity newNote
+            redirect $ NoteR (entityKey note)
+        _ -> defaultLayout $ do
+            setTitle "Add a note!"
+            $(widgetFile "notes/add")
+
+postAddNoteJSON :: Handler Value
+postAddNoteJSON = do
+    uid <- requireAuthId
+    res <- (requireJsonBody :: Handler NoteForm)
+    let note = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
+    insertedNote <- runDB $ insertEntity note
+    returnJson insertedNote
+
+postAddNoteAJAX :: Handler Html
+postAddNoteAJAX = do
+    uid <- requireAuthId
+    res <- (requireJsonBody :: Handler NoteForm)
+    let note = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
+    insertedNote <- runDB $ insertEntity note
+    let noteId = entityKey insertedNote
+    insertedNoteLayout $ $(widgetFile "notes/view")
+
+insertedNoteLayout :: Widget -> Handler Html
+insertedNoteLayout widget = do
+    pc <- widgetToPageContent widget
+    withUrlRenderer [hamlet| 
+            <div .column.is-narrow>
+                ^{pageBody pc} 
+        |]
 
 
 noteForm :: Form NoteForm

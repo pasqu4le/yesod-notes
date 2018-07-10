@@ -11,7 +11,7 @@ import Text.Julius (RawJS (..))
 getNotesR :: Handler Html
 getNotesR = do
     uid <- requireAuthId
-    noteList <- runDB $ selectList [NoteUserId ==. uid] [Asc NoteId]
+    noteList <- runDB $ selectList [NoteUserId ==. uid] [Desc NoteId]
     defaultLayout $ do
         let noteListId = "noteList" :: Text
             newNoteFormId = "js-newNoteForm" :: Text

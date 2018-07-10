@@ -4,10 +4,15 @@
     <div .container>    
         <div .navbar-brand>
             <a href="@{HomeR}" .navbar-item>Yesod-notes
-            $forall MenuItem label route _ <- navbarLeftFilteredMenuItems
-                <a href="@{route}" :Just route == mcurrentRoute:.active.navbar-item>#{label}
+            <div .navbar-burger role="button"  aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true">
+                <span aria-hidden="true">
+                <span aria-hidden="true">
 
         <div .navbar-menu>
+            <div .navbar-start>
+                $forall MenuItem label route _ <- navbarLeftFilteredMenuItems
+                    <a href="@{route}" :Just route == mcurrentRoute:.active.navbar-item>#{label}
             <div .navbar-end>
                 $forall MenuItem label route _ <- navbarRightFilteredMenuItems
                     <a href="@{route}" :Just route == mcurrentRoute:.active.navbar-item>#{label}
@@ -16,12 +21,13 @@
 
 $if not $ Just HomeR == mcurrentRoute
     <section .section.container>
-        <div .breadcrumb.notification aria-label="breadcrumbs">
+        <div .breadcrumb.box aria-label="breadcrumbs">
             <ul>
                 $forall bc <- parents
                     <li>
                         <a href="@{fst bc}">#{snd bc}
-                <li .is-active>#{title}
+                <li .is-active>
+                    <a href="#" aria-current="page">#{title}
 
 $maybe msg <- mmsg
     <div .container.notification.is-info #message>
