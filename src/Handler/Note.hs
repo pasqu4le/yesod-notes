@@ -13,5 +13,6 @@ getNoteR noteId = do
     selectRep $ do
         provideRep $ defaultLayout $ do
             setTitle "Note"
+            let noNoteButtons = False
             $(widgetFile "notes/view")
         provideJson note

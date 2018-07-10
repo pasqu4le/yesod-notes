@@ -1,7 +1,12 @@
-<section .hero.is-dark.is-medium>
+<section .hero.is-dark.is-fullheight.is-bold>
     <div .hero-body>
-        <div .container.has-text-centered>
-            <h1 .title> Yesod—notes: blazing fast note-taking
+        <div .container>
+            <div .columns>
+                <div .column.is-4-desktop.is-3-tablet>
+                    <img src="@{StaticR imgs_stack_png}">
+                <div .column.has-text-centered>
+                    <h1 .title> Yesod—notes
+                    <p .subtitle> Blazing fast note-taking
 
 <div .container.has-text-centered>
     <h1 .title>Something something

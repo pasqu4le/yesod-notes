@@ -23,3 +23,4 @@ getNotesR = do
 
 noteTileWidget :: Note -> NoteId -> Widget
 noteTileWidget note noteId = $(widgetFile "notes/view")
+    where noNoteButtons = False

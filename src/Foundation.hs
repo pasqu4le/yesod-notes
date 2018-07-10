@@ -173,6 +173,7 @@ instance Yesod App where
     isAuthorized (NoteR nid) _ = isNoteOwner nid
     isAuthorized AddNoteR _ = isAuthenticated
     isAuthorized (EditNoteR nid) _ = isNoteOwner nid
+    isAuthorized (DeleteNoteR nid) _ = isNoteOwner nid
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -231,6 +232,7 @@ instance YesodBreadcrumbs App where
             _ -> return ("Note not found", Just NotesR)
     breadcrumb AddNoteR = return ("Add", Just NotesR)
     breadcrumb (EditNoteR noteId) = return ("Edit", Just $ NoteR noteId)
+    breadcrumb (DeleteNoteR noteId) = return ("Delete", Just $ NoteR noteId)
     breadcrumb  _ = return ("Home", Nothing)
 
 -- How to run database actions.

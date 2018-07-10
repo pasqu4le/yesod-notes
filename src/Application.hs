@@ -47,6 +47,7 @@ import Handler.Notes
 import Handler.AddNote
 import Handler.Note
 import Handler.EditNote
+import Handler.DeleteNote
 
 -- This line actually creates our YesodDispatch instance. It is the second half
 -- of the call to mkYesodData which occurs in Foundation.hs. Please see the

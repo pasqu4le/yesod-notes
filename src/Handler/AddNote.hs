@@ -68,7 +68,9 @@ postAddNoteAJAX = do
     let note = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
     insertedNote <- runDB $ insertEntity note
     let noteId = entityKey insertedNote
-    insertedNoteLayout $ $(widgetFile "notes/view")
+    insertedNoteLayout $ do
+        let noNoteButtons = False
+        $(widgetFile "notes/view")
 
 insertedNoteLayout :: Widget -> Handler Html
 insertedNoteLayout widget = do
