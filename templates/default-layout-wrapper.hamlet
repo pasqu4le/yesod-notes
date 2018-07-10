@@ -12,6 +12,14 @@ $newline never
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="@{StaticR ico_appletouch_png}">
+    <link rel="icon" type="image/png" sizes="32x32" href="@{StaticR ico_favicon32_png}">
+    <link rel="icon" type="image/png" sizes="16x16" href="@{StaticR ico_favicon16_png}">
+    <link rel="manifest" href="@{StaticR ico_site_webmanifest}">
+    <link rel="mask-icon" href="@{StaticR ico_safaripinnedtab_svg}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#2b5797">
+    <meta name="theme-color" content="#ffffff">
+    
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     ^{pageHead pc}
@@ -42,6 +50,7 @@ $newline never
 
     <script>
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
   <body>
     ^{pageBody pc}
 

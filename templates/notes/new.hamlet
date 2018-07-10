@@ -8,4 +8,7 @@
                 <textarea .textarea rows="2" ##{newNoteContentId} placeholder="Content" required>
         <hr>
         <div .buttons.is-right>
-            <button .button.is-primary type=submit> Add note
+            <button .button.is-primary type=submit>
+                <span .icon>
+                    <i .fas.fa-plus>
+                <span>Add note

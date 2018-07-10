@@ -5,5 +5,11 @@
     $if not noNoteButtons
         <hr>
         <div .buttons.is-right.has-addons>
-            <a .button.is-light href="@{DeleteNoteR noteId}">Delete
-            <a .button.is-primary href="@{EditNoteR noteId}"> Edit
+            <a .button.is-light href="@{DeleteNoteR noteId}">
+                <span .icon>
+                    <i .fas.fa-trash>
+                <span>Delete
+            <a .button.is-primary href="@{EditNoteR noteId}">
+                <span .icon>
+                    <i .fas.fa-pen>
+                <span>Edit

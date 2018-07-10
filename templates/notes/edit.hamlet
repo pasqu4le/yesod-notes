@@ -4,4 +4,7 @@
         ^{formWidget}
         <hr>
         <div .buttons.is-right>
-            <button .button.is-primary type="submit">Save 
+            <button .button.is-primary type="submit">
+                <span .icon>
+                    <i .fas.fa-check>
+                <span>Save 
