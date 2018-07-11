@@ -15,6 +15,8 @@ import Database.Persist.Sql (ConnectionPool, runSqlPool)
 import Text.Hamlet          (hamletFile)
 import Text.Jasmine         (minifym)
 import Control.Monad.Logger (LogSource)
+import Text.Julius (rawJS)
+import qualified Network.Wai as Wai
 
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
@@ -138,6 +140,12 @@ instance Yesod App where
         let navbarLeftFilteredMenuItems = [x | x <- navbarLeftMenuItems, menuItemAccessCallback x]
         let navbarRightFilteredMenuItems = [x | x <- navbarRightMenuItems, menuItemAccessCallback x]
 
+        -- checks cookies to see if they have been accepted
+        cokCk <- lookupSession cookiesKey
+        let cookiesAccepted = isJust cokCk
+            acceptCookiesId = "js-acceptCookies" :: Text
+            cookiesWidgetId = "js-cookiesWidget" :: Text
+
         -- We break up the default layout into two components:
         -- default-layout is the contents of the body tag, and
         -- default-layout-wrapper is the entire page. Since the final
@@ -146,6 +154,7 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bulma_css
+            let cookiesWidget = $(widgetFile "cookies/widget")
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 
@@ -165,6 +174,7 @@ instance Yesod App where
     isAuthorized FaviconR _ = return Authorized
     isAuthorized RobotsR _ = return Authorized
     isAuthorized (StaticR _) _ = return Authorized
+    isAuthorized CookiesR _ = return Authorized
 
     -- the profile route requires that the user is authenticated, so we
     -- delegate to that function
@@ -233,6 +243,7 @@ instance YesodBreadcrumbs App where
     breadcrumb AddNoteR = return ("Add", Just NotesR)
     breadcrumb (EditNoteR noteId) = return ("Edit", Just $ NoteR noteId)
     breadcrumb (DeleteNoteR noteId) = return ("Delete", Just $ NoteR noteId)
+    breadcrumb CookiesR = return ("Cookies", Just HomeR)
     breadcrumb  _ = return ("Home", Nothing)
 
 -- How to run database actions.
@@ -295,6 +306,17 @@ isNoteOwner noteId = do
         Just uid -> if noteUserId note == uid
             then Authorized
             else Unauthorized "You do not own this note"
+
+-- Function to determine if a request was made with ajax
+isAjaxRequest :: Handler Bool
+isAjaxRequest = do
+    req <- waiRequest
+    let reqwith = lookup "X-Requested-With" $ Wai.requestHeaders req
+    return $ maybe False (== "XMLHttpRequest") reqwith
+
+-- key used by session to check if cookies are accepted
+cookiesKey :: Text
+cookiesKey = "_COK"
 
 instance YesodAuthPersist App
 

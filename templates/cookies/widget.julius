@@ -1,0 +1,19 @@
+$(function() {
+  // pressing the accept cookie button should remove the widget
+  // and set a cookie to avoid the widget in the future
+  $("##{rawJS acceptCookiesId}").click(function() {
+    // Make an AJAX request to the server to access the session
+    $.ajax({
+      url: '@{CookiesR}',
+      type: 'POST',
+      success: function (data) {
+        console.log("Cookie changed successfully");
+        $("##{rawJS cookiesWidgetId}").remove();
+        $( "body" ).removeClass( "has-navbar-fixed-bottom" );
+      },
+      error: function (data) {
+        console.log("Error setting cookie: " + data);
+      },
+    });
+  });
+});

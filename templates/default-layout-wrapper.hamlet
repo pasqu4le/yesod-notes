@@ -4,7 +4,7 @@ $newline never
 \<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 \<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
 \<!--[if gt IE 8]><!-->
-<html class="no-js" lang="en" .has-navbar-fixed-top> <!--<![endif]-->
+<html class="no-js" lang="en"> <!--<![endif]-->
   <head>
     <meta charset="UTF-8">
 
@@ -51,7 +51,7 @@ $newline never
     <script>
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-  <body>
+  <body .has-navbar-fixed-top :not cookiesAccepted:.has-navbar-fixed-bottom>
     ^{pageBody pc}
 
     $maybe analytics <- appAnalytics $ appSettings master

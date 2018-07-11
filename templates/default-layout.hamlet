@@ -44,3 +44,6 @@ $else
 <footer .footer>
     <div .content.has-text-centered>
         <p>#{appCopyright $ appSettings master}
+
+$if not cookiesAccepted
+    ^{cookiesWidget}

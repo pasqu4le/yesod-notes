@@ -1,7 +1,7 @@
 <div .container>
     <article .message.is-success>
           <div .message-header>
-            <p>Access granted!</p>
+            <p>Access granted!
           <div .message-body>
             <p>This page is protected and access is allowed only for authenticated users.
             <p>Your data is protected with us <strong><span class="username">#{userIdent user}</span></strong>!

@@ -1,0 +1,67 @@
+<div .container.content>
+    <h2>What Are Cookies
+    <p>This site uses cookies, which are tiny files that are downloaded to your computer to improve your experience. This page describes what information they gather and why we need to use them. You can prevent these cookies from being stored, but this will downgrade or 'break' certain elements of the sites functionality.
+    <p>For more general information on cookies see the Wikipedia article on HTTP Cookies.
+
+    <h2>Disabling Cookies
+    <p>You can prevent the setting of cookies by adjusting the settings on your browser (see your browser Help for how to do this). Disabling cookies will affect or disable some functionality of this and many other websites that you visit. Therefore it is recommended that you do not disable cookies.
+
+    <h2>The Cookies We Set
+    <p>We set only one cookie to keep track of your session.
+    <p>This cookie is encrypted for security reasons and can contain:
+
+            <article .message.is-info>
+                <div .message-header>
+                    <p>Your User Id
+                <div .message-body>
+                    <p>This prevents you from having to log in every single time you visit a new page
+                    <div .notification>
+                        $if hasUsrCk
+                            <span .tag.is-success">Active
+                            Because you are logged in 
+                        $else
+                            <span .tag.is-dark">Unset
+                            Because you are not registered or logged on
+    <article .message.is-info>
+        <div .message-header>
+            <p>Messages
+        <div .message-body>
+            <p>This allows you to get those messages on top of the page after redirection when something happens
+            <div .notification>
+                $if hasMsgCk
+                    <span .tag.is-success">Active
+                    Because there is a message for you to see 
+                $else
+                    <span .tag.is-dark">Unset
+                    Because there is no message for you right now
+
+    <article .message.is-info>
+        <div .message-header>
+            <p>Ultimate Destination
+        <div .message-body>
+            <p>This allows you to get redirected to the right place in the future, so for instance you can go to the login page knowing you will get back to the page you came from. 
+            <div .notification>
+                $if hasUltCk
+                    <span .tag.is-success">Active
+                    Because there is a page you will need to be redirected to 
+                $else
+                    <span .tag.is-dark">Unset
+                    Because there is no page you will need to be redirected to 
+    <article .message.is-info>
+        <div .message-header>
+            <p>Cookies
+        <div .message-body>
+            <p>So you will not get the annoying bottom bar after you accepted to receive cookies
+            <div .notification>
+                $if hasCokCk
+                     <span .tag.is-success">Active
+                    Because you already accepted the use of cookies 
+                $else
+                    <span .tag.is-dark">Unset
+                    Because you are yet to accept the use of cookies 
+
+    <h2>Third Party Cookies
+    <p>Right now we use no third party cookies and we are not planning to start anytime soon.
+
+    <h2>More Information
+    <p>If you have question regarding our usage of cookies feel free to write us an email.

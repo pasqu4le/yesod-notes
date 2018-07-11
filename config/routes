@@ -15,3 +15,4 @@
 /notes/add AddNoteR GET POST
 /notes/edit/#NoteId EditNoteR GET POST
 /notes/delete/#NoteId DeleteNoteR GET POST
+/cookies CookiesR GET POST

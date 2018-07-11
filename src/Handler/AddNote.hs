@@ -7,7 +7,6 @@
 module Handler.AddNote where
 
 import Import
-import qualified Network.Wai as Wai
 import qualified Form.Bulma as Bulma
 import Data.Aeson (withObject)
 
@@ -31,9 +30,8 @@ getAddNoteR = do
 -- TODO: check if is Ajax with X-Requested-With
 postAddNoteR :: Handler TypedContent
 postAddNoteR = do
-    req <- waiRequest
-    let reqwith = lookup "X-Requested-With" $ Wai.requestHeaders req
-    if maybe False (== "XMLHttpRequest") reqwith then
+    isAjax <- isAjaxRequest
+    if isAjax then
         selectRep $ provideRep postAddNoteAJAX
     else
         selectRep $ do

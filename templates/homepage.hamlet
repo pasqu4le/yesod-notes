@@ -1,4 +1,4 @@
-<section .hero.is-dark.is-fullheight.is-bold>
+<section .hero.is-dark.is-fullheight>
     <div .hero-body>
         <div .container>
             <div .columns>
