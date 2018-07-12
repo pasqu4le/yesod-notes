@@ -1,8 +1,8 @@
 $(function() {
   // On mobile toggles the navbar menu by clicking on the burger
-  $("div.navbar-burger").click(function() {
-    $( "div.navbar-burger" ).toggleClass( "is-active" );
-    $( "div.navbar-menu" ).toggleClass( "is-active" );
+  $(".navbar-burger").click(function() {
+    $( ".navbar-burger" ).toggleClass( "is-active" );
+    $( ".navbar-menu" ).toggleClass( "is-active" );
   });
   // closes notifications when clicking on button
   $("button.delete").click(function() {

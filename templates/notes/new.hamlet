@@ -1,14 +1,9 @@
 <div .box>
-    <form .form ##{newNoteFormId}>
-        <div .field>
-            <div .control>
-                <input .input type="text" ##{newNoteTitleId} placeholder="Title">
-        <div .field>
-            <div .control>
-                <textarea .textarea rows="2" ##{newNoteContentId} placeholder="Content" required>
+    <form .form ##{newNoteFormId} method=post action=@{AddNoteR} enctype=#{formEnctype}>
+        ^{formWidget}
         <hr>
         <div .buttons.is-right>
-            <button .button.is-primary type=submit>
+            <button .button.is-primary type="submit">
                 <span .icon>
                     <i .fas.fa-plus>
                 <span>Add note

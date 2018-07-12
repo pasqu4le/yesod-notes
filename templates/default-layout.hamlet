@@ -1,10 +1,11 @@
 
 <!-- Static navbar -->
+<input type="checkbox" id="navbarbox">
 <nav .navbar.is-fixed-top.is-dark>
     <div .container>    
         <div .navbar-brand>
             <a href="@{HomeR}" .navbar-item>Yesod-notes
-            <div .navbar-burger role="button"  aria-label="menu" aria-expanded="false">
+            <label for="navbarbox" .navbar-burger role="button"  aria-label="menu" aria-expanded="false">
                 <span aria-hidden="true">
                 <span aria-hidden="true">
                 <span aria-hidden="true">
@@ -31,7 +32,7 @@ $if not $ Just HomeR == mcurrentRoute
 
 $maybe msg <- mmsg
     <div .container.notification.is-info #message>
-        <button .delete></button>
+        <button .delete.scriptonly></button>
         #{msg}
 
 $if (Just HomeR == mcurrentRoute)

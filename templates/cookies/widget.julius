@@ -2,6 +2,7 @@ $(function() {
   // pressing the accept cookie button should remove the widget
   // and set a cookie to avoid the widget in the future
   $("##{rawJS acceptCookiesId}").click(function() {
+    event.preventDefault();
     // Make an AJAX request to the server to access the session
     $.ajax({
       url: '@{CookiesR}',

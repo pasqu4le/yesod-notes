@@ -1,0 +1,23 @@
+/* Elements with this class will be shown only if javascript is allowed */
+.scriptonly {
+    display: none;
+} 
+
+/* These will toggle the menu and animate the burger of the navbar when javascript is blocked */ 
+#navbarbox:checked ~ .navbar.is-fixed-top .container .navbar-menu{
+    display: block;
+}
+
+#navbarbox:checked ~ .navbar.is-fixed-top .container .navbar-brand .navbar-burger span:nth-child(1) {
+    -webkit-transform: translateY(5px) rotate(45deg);
+    transform: translateY(5px) rotate(45deg);
+}
+
+#navbarbox:checked ~ .navbar.is-fixed-top .container .navbar-brand .navbar-burger span:nth-child(2) {
+    opacity: 0;
+}
+
+#navbarbox:checked ~ .navbar.is-fixed-top .container .navbar-brand .navbar-burger span:nth-child(3) {
+    -webkit-transform: translateY(-5px) rotate(-45deg);
+    transform: translateY(-5px) rotate(-45deg);
+}

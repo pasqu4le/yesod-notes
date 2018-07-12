@@ -2,5 +2,5 @@
     <div .navbar-brand>
         <p .navbar-item>This website uses cookies
         <a .navbar-item href="@{CookiesR}">More Info
-        <div .navbar-item>
-            <button ##{acceptCookiesId} .button.is-info>Got It!
+        <form method=post action=@{CookiesR} .navbar-item>
+            <button ##{acceptCookiesId} .button.is-info type="submit">Got It!

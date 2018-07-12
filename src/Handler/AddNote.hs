@@ -42,11 +42,12 @@ postAddNoteHTML :: Handler Html
 postAddNoteHTML = do
     uid <- requireAuthId
     ((result, formWidget), formEnctype) <- runFormPost noteForm
+    setUltDestReferer
     case result of
         FormSuccess res -> do
             let newNote = Note (noteFormTitle res) (uid) (unTextarea $ noteFormContent res)
             note <- runDB $ insertEntity newNote
-            redirect $ NoteR (entityKey note)
+            redirectUltDest $ NoteR (entityKey note)
         _ -> defaultLayout $ do
             setTitle "Add a note!"
             $(widgetFile "notes/add")

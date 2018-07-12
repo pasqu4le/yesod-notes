@@ -51,6 +51,11 @@ $newline never
     <script>
       document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js');
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+    <!-- Static css file only needed when javascript is blocked -->
+    <noscript>
+      <link rel="stylesheet" href="@{StaticR css_scriptless_css}">
+
   <body .has-navbar-fixed-top :not cookiesAccepted:.has-navbar-fixed-bottom>
     ^{pageBody pc}
 

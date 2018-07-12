@@ -2,8 +2,8 @@ $(function() {
   $("##{rawJS newNoteFormId}").submit(function(event) {
     event.preventDefault();
 
-    var title = $("##{rawJS newNoteTitleId}").val();
-    var content = $("##{rawJS newNoteContentId}").val();
+    var title = $("##{rawJS newNoteFormId}").find("input.input").val();
+    var content = $("##{rawJS newNoteFormId}").find("textarea").val();
     // (Browsers that enforce the "required" attribute on the textarea won't see this alert)
     if (!content) {
       alert("Please fill out your new note content first.");
