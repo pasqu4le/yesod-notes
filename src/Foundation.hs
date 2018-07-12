@@ -27,6 +27,8 @@ import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
 import qualified Data.CaseInsensitive as CI
 import qualified Data.Text.Encoding as TE
+import qualified Data.Text.Encoding.Error as TEE
+import qualified Data.ByteString.Char8 as S8
 
 -- | The foundation datatype for your application. This can be a good place to
 -- keep settings and values requiring initialization before your application
@@ -81,6 +83,48 @@ instance Yesod App where
         case appRoot $ appSettings app of
             Nothing -> getApprootText guessApproot app req
             Just root -> root
+
+    -- Custom error handler
+    errorHandler :: ErrorResponse -> Handler TypedContent
+    errorHandler errRes = case errRes of
+        NotFound -> selectRep $ do
+            provideRep $ defaultLayout $ do
+                setTitle "Not Found"
+                $(widgetFile "errors/notFound")
+            provideRep $ return $ object ["message" .= ("Not Found" :: Text)]
+        NotAuthenticated -> selectRep $ do
+            provideRep $ defaultLayout $ do
+                setTitle "Not Authenticated"
+                $(widgetFile "errors/notAuthenticated")
+            provideRep $ do
+                addHeader "WWW-Authenticate" "RedirectJSON realm=\"application\", param=\"authentication_url\""
+                site <- getYesod
+                rend <- getUrlRender
+                let apair u = ["authentication_url" .= rend u]
+                    content = maybe [] apair (authRoute site)
+                return $ object $ ("message" .= ("Not logged in"::Text)) : content
+        (PermissionDenied msg) -> selectRep $ do
+            provideRep $ defaultLayout $ do
+                setTitle "Permission Denied"
+                $(widgetFile "errors/permissionDenied")
+            provideRep $ return $ object ["message" .= ("Permission Denied. " <> msg)]
+        (InvalidArgs ia) -> selectRep $ do
+            provideRep $ defaultLayout $ do
+                setTitle "Invalid Arguments"
+                $(widgetFile "errors/invalidArgs")
+            provideRep $ return $ object ["message" .= ("Invalid Arguments" :: Text), "errors" .= ia]
+        (InternalError e) -> do
+            $logErrorS "yesod-core" e
+            selectRep $ do
+                provideRep $ defaultLayout $ do
+                    setTitle "Internal Server Error"
+                    $(widgetFile "errors/internalError")
+                provideRep $ return $ object ["message" .= ("Internal Server Error" :: Text), "error" .= e]
+        (BadMethod m) -> selectRep $ do
+            provideRep $ defaultLayout $ do
+                setTitle "Method Not Supported"
+                $(widgetFile "errors/badMethod")
+            provideRep $ return $ object ["message" .= ("Bad method" :: Text), "method" .= TE.decodeUtf8With TEE.lenientDecode m]
 
     -- Store session data on the client in encrypted cookies,
     -- default session idle timeout is 120 minutes
@@ -293,7 +337,7 @@ isAuthenticated :: Handler AuthResult
 isAuthenticated = do
     muid <- maybeAuthId
     return $ case muid of
-        Nothing -> Unauthorized "You must login to access this page"
+        Nothing -> AuthenticationRequired
         Just _ -> Authorized
 
 -- | Access function to determine if a user is the owner of a note
@@ -302,7 +346,7 @@ isNoteOwner noteId = do
     muid <- maybeAuthId
     note <- runDB $ get404 noteId
     return $ case muid of
-        Nothing -> Unauthorized "You must login to access this page"
+        Nothing -> AuthenticationRequired
         Just uid -> if noteUserId note == uid
             then Authorized
             else Unauthorized "You do not own this note"

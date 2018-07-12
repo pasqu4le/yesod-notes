@@ -7,7 +7,6 @@
 module Handler.EditNote where
 
 import Import
-import qualified Form.Bulma as Bulma
 import qualified Form.Note as NoteForm
 
 getEditNoteR :: NoteId -> Handler Html
@@ -37,7 +36,7 @@ postEditNoteHTML noteId = do
 
 postEditNoteJSON :: NoteId -> Handler Value
 postEditNoteJSON noteId = do
-    note <- runDB $ get404 noteId
+    _ <- runDB $ get404 noteId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
     updatedNote <- runDB $ update noteId [NoteTitle =. NoteForm.title res, NoteContent =. unTextarea (NoteForm.content res)]
     returnJson updatedNote

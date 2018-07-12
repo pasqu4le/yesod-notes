@@ -1,0 +1,5 @@
+<section .hero.is-light.is-medium>
+    <div .hero-body>
+        <div .has-text-centered>
+            <h1 .title>Not Found
+            <h2 .subtitle>Whatever you are looking for, it's not here.

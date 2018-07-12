@@ -1,0 +1,7 @@
+<section .hero.is-light.is-medium>
+    <div .hero-body>
+        <div .has-text-centered>
+            <h1 .title>Invalid Arguments
+            <ul>
+                $forall msg <- ia
+                    <li>#{msg}

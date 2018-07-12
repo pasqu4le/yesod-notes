@@ -1,0 +1,6 @@
+<section .hero.is-light.is-medium>
+    <div .hero-body>
+        <div .has-text-centered>
+            <h1 .title>Not Authenticated
+            <h2 .subtitle>You need to be logged in to access this page.
+            <a .button.is-info href="@{AuthR LoginR}">Log in now
