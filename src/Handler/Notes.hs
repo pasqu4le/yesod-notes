@@ -7,13 +7,19 @@ module Handler.Notes where
 
 import Import
 import Text.Julius (RawJS (..))
-import Handler.AddNote (noteForm)
+import qualified Form.Note as NoteForm
 
-getNotesR :: Handler Html
+getNotesR :: Handler TypedContent
 getNotesR = do
     uid <- requireAuthId
     noteList <- runDB $ selectList [NoteUserId ==. uid] [Desc NoteId]
-    (formWidget, formEnctype) <- generateFormPost noteForm
+    selectRep $ do
+        provideRep $ getNotesHTML noteList
+        provideJson noteList
+
+getNotesHTML :: [Entity Note] -> Handler Html
+getNotesHTML noteList = do
+    (formWidget, formEnctype) <- generateFormPost NoteForm.empty
     defaultLayout $ do
         let noteListId = "noteList" :: Text
             newNoteFormId = "js-newNoteForm" :: Text
