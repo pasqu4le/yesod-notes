@@ -6,11 +6,11 @@ $with noteBoxId <- "note-box-" ++ either id id (fromPersistValueText $ toPersist
         $if not noNoteButtons
             <hr>
             <div .buttons.is-right.has-addons>
-                <a .note-delete.button.is-light href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
+                <a .note-action.button.is-light href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
                     <span .icon>
                         <i .fas.fa-trash>
                     <span>Delete
-                <a .note-edit.button.is-primary href="@{EditNoteR noteId}" data-target=#{noteBoxId}>
+                <a .note-action.button.is-primary href="@{EditNoteR noteId}" data-target=#{noteBoxId}>
                     <span .icon>
                         <i .fas.fa-pen>
                     <span>Edit

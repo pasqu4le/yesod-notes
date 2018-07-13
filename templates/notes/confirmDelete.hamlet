@@ -2,11 +2,11 @@
 <p .tag.is-danger.is-large>NOTE: This cannot be undone
 <form .form method=post action=@{DeleteNoteR noteId}>
     <div .buttons.is-right>
-        <a #delete-note-cancel .button.is-light href="@{NoteR noteId}">
+        <a .note-action-cancel .button.is-light href="@{NoteR noteId}">
             <span .icon>
                 <i .fas.fa-times>
             <span>Cancel
-        <button #delete-note-confirm .button.is-danger type="submit">
+        <button .note-action-delete-confirm .button.is-danger type="submit">
             <span .icon>
                 <i .fas.fa-check>
             <span>Delete

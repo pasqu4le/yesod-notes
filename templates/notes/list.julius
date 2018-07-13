@@ -1,53 +1,82 @@
 $(function() {
+  // Function to clear the content and close the modal
+  function closeModal() {
+    $(".modal-content").html("");
+    $(".modal").removeClass("is-active");
+  }
+
   // Functions to close when clicking on background or close button
-  $(".modal-background").click(function(event) {
-    $(".modal").removeClass("is-active");
-  });
-  $(".modal-close").click(function(event) {
-    $(".modal").removeClass("is-active");
+  $(".modal-background").click(function(event) { closeModal(); });
+  $(".modal-close").click(function(event) { closeModal(); });
+
+  // If a cancel button is pressed close the modal
+  $(".modal-content").on("click", ".note-action-cancel", function(cancelEvent) {
+    cancelEvent.preventDefault();
+    closeModal();
   });
 
-  // Make an AJAX request to the server to populate a confirmation modal and another one to actually delete the note
-  $(".note-delete").click(function(event) {
+  // Make an AJAX request to populate and open a modal instead of changing page
+  $("##{rawJS noteListId}").on( "click", ".note-action", function(event) {
     event.preventDefault();
 
-    var delLink = $(this).attr("href");
+    var actionLink = $(this).attr("href");
     var noteBoxId = "#" + $(this).attr("data-target");
 
     $.ajax({
-      url: delLink,
+      url: actionLink,
       type: 'GET',
       success: function (data) {
         $(".modal").addClass("is-active");
         $(".modal-content").html(data);
-        $("#delete-note-cancel").click(function(cancelDelEvent) {
-          cancelDelEvent.preventDefault();
-          $(".modal-content").html("");
-          $(".modal").removeClass("is-active");
-        });
-        $("#delete-note-confirm").click(function(confirmDelEvent) {
+        
+        // If a confirm deletion button is pressed make another ajax request
+        $(".note-action-delete-confirm").click(function(confirmDelEvent) {
           confirmDelEvent.preventDefault();
           
           $.ajax({
-            url: delLink,
+            url: actionLink,
             type: 'POST',
             success: function (data) {
-              $(".modal-content").html("");
-              $(".modal").removeClass("is-active");
+              // If the request was a success close the modal and remove the note
+              closeModal();
               $(noteBoxId).parent().remove();
             },
             error: function (data) {
-              $(".modal").removeClass("is-active");
+              closeModal();
               console.log("Error while confirming deletion: " + data);
+            },
+          });
+        });
+
+        // If a save edit button is pressed make another ajax request
+        $(".note-action-edit-save").click(function(saveEditEvent) {
+          saveEditEvent.preventDefault();
+          
+          var title = $(".modal-content").find("input.input").val();
+          var content = $(".modal-content").find("textarea").val();
+          $.ajax({
+            url: actionLink,
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify({
+              title: title,
+              content: content,
+            }),
+            success: function (data) {
+              // If the request was a success close the modal and update the note
+              closeModal();
+              $(noteBoxId).parent().html(data);
+            },
+            error: function (data) {
+              closeModal();
+              console.log("Error while saving changes: " + data);
             },
           });
         });
       },
       error: function (data) {
-        console.log("Error while opening modal to delete: " + data);
+        console.log("Error while opening modal: " + data);
       },
     });
   });
-  // Make an AJAX request to the server to populate an editing modal and another one to save the changes
-  // TODO
 });

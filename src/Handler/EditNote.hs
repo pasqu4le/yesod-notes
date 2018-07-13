@@ -13,14 +13,30 @@ getEditNoteR :: NoteId -> Handler Html
 getEditNoteR noteId = do
     note <- runDB $ get404 noteId
     (formWidget, formEnctype) <- generateFormPost (NoteForm.fromNote note)
-    defaultLayout $ do
+    let editNoteWidget = $(widgetFile "notes/editWidget")
+    isAjax <- isAjaxRequest
+    if isAjax then ajaxContentLayout editNoteWidget
+    else defaultLayout $ do
         setTitle "Edit note"
         $(widgetFile "notes/edit")
 
 postEditNoteR :: NoteId -> Handler TypedContent
-postEditNoteR noteId = selectRep $ do
-    provideRep $ postEditNoteHTML noteId
-    provideRep $ postEditNoteJSON noteId
+postEditNoteR noteId = do
+    isAjax <- isAjaxRequest
+    if isAjax then selectRep $ provideRep $ postEditNoteAJAX noteId
+    else selectRep $ do
+        provideRep $ postEditNoteHTML noteId
+        provideRep $ postEditNoteJSON noteId
+
+postEditNoteAJAX :: NoteId -> Handler Html
+postEditNoteAJAX noteId = do
+    _ <- runDB $ get404 noteId
+    res <- (requireJsonBody :: Handler NoteForm.NoteForm)
+    runDB $ update noteId [NoteTitle =. NoteForm.title res, NoteContent =. unTextarea (NoteForm.content res)]
+    note <- runDB $ get404 noteId 
+    ajaxContentLayout $ do
+        let noNoteButtons = False
+        $(widgetFile "notes/view")
 
 postEditNoteHTML :: NoteId -> Handler Html
 postEditNoteHTML noteId = do
@@ -32,11 +48,13 @@ postEditNoteHTML noteId = do
             redirect $ NoteR noteId
         _ -> defaultLayout $ do
             setTitle "Edit note"
+            let editNoteWidget = $(widgetFile "notes/editWidget")
             $(widgetFile "notes/edit")
 
 postEditNoteJSON :: NoteId -> Handler Value
 postEditNoteJSON noteId = do
     _ <- runDB $ get404 noteId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    updatedNote <- runDB $ update noteId [NoteTitle =. NoteForm.title res, NoteContent =. unTextarea (NoteForm.content res)]
-    returnJson updatedNote
+    runDB $ update noteId [NoteTitle =. NoteForm.title res, NoteContent =. unTextarea (NoteForm.content res)]
+    note <- runDB $ get404 noteId
+    returnJson note

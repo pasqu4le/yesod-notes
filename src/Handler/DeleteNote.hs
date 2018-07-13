@@ -3,6 +3,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE QuasiQuotes #-}
 module Handler.DeleteNote where
 
 import Import
@@ -24,4 +25,6 @@ postDeleteNoteR :: NoteId -> Handler Html
 postDeleteNoteR noteId = do
     runDB $ delete noteId
     setMessage "Your note was successfully deleted"
-    redirect NotesR
+    isAjax <- isAjaxRequest
+    if isAjax then ajaxContentLayout $ toWidget [hamlet|<h1>Deleted|]
+    else redirect NotesR
