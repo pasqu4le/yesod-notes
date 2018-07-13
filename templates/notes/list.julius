@@ -1,0 +1,53 @@
+$(function() {
+  // Functions to close when clicking on background or close button
+  $(".modal-background").click(function(event) {
+    $(".modal").removeClass("is-active");
+  });
+  $(".modal-close").click(function(event) {
+    $(".modal").removeClass("is-active");
+  });
+
+  // Make an AJAX request to the server to populate a confirmation modal and another one to actually delete the note
+  $(".note-delete").click(function(event) {
+    event.preventDefault();
+
+    var delLink = $(this).attr("href");
+    var noteBoxId = "#" + $(this).attr("data-target");
+
+    $.ajax({
+      url: delLink,
+      type: 'GET',
+      success: function (data) {
+        $(".modal").addClass("is-active");
+        $(".modal-content").html(data);
+        $("#delete-note-cancel").click(function(cancelDelEvent) {
+          cancelDelEvent.preventDefault();
+          $(".modal-content").html("");
+          $(".modal").removeClass("is-active");
+        });
+        $("#delete-note-confirm").click(function(confirmDelEvent) {
+          confirmDelEvent.preventDefault();
+          
+          $.ajax({
+            url: delLink,
+            type: 'POST',
+            success: function (data) {
+              $(".modal-content").html("");
+              $(".modal").removeClass("is-active");
+              $(noteBoxId).parent().remove();
+            },
+            error: function (data) {
+              $(".modal").removeClass("is-active");
+              console.log("Error while confirming deletion: " + data);
+            },
+          });
+        });
+      },
+      error: function (data) {
+        console.log("Error while opening modal to delete: " + data);
+      },
+    });
+  });
+  // Make an AJAX request to the server to populate an editing modal and another one to save the changes
+  // TODO
+});

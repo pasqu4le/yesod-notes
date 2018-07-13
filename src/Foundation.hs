@@ -7,6 +7,7 @@
 {-# LANGUAGE ExplicitForAll #-}
 {-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE InstanceSigs #-}
+{-# LANGUAGE QuasiQuotes #-}
 
 module Foundation where
 
@@ -79,10 +80,7 @@ instance Yesod App where
     -- Controls the base of generated URLs. For more information on modifying,
     -- see: https://github.com/yesodweb/yesod/wiki/Overriding-approot
     approot :: Approot App
-    approot = ApprootRequest $ \app req ->
-        case appRoot $ appSettings app of
-            Nothing -> getApprootText guessApproot app req
-            Just root -> root
+    approot = ApprootRequest $ \app req -> (fromMaybe (getApprootText guessApproot app req) (appRoot $ appSettings app))
 
     -- Custom error handler
     errorHandler :: ErrorResponse -> Handler TypedContent
@@ -156,22 +154,22 @@ instance Yesod App where
 
         -- Define the menu items of the header.
         let menuItems =
-                [ NavbarLeft $ MenuItem
+                [ NavbarLeft MenuItem
                     { menuItemLabel = "Notes"
                     , menuItemRoute = NotesR
                     , menuItemAccessCallback = isJust muser
                     }
-                , NavbarLeft $ MenuItem
+                , NavbarLeft MenuItem
                     { menuItemLabel = "Profile"
                     , menuItemRoute = ProfileR
                     , menuItemAccessCallback = isJust muser
                     }
-                , NavbarRight $ MenuItem
+                , NavbarRight MenuItem
                     { menuItemLabel = "Login"
                     , menuItemRoute = AuthR LoginR
                     , menuItemAccessCallback = isNothing muser
                     }
-                , NavbarRight $ MenuItem
+                , NavbarRight MenuItem
                     { menuItemLabel = "Logout"
                     , menuItemRoute = AuthR LogoutR
                     , menuItemAccessCallback = isJust muser
@@ -328,9 +326,15 @@ instance YesodAuth App where
 
     -- You can add other plugins like Google Email, email or OAuth here
     authPlugins :: App -> [AuthPlugin App]
-    authPlugins app = [authOpenId Claimed []] ++ extraAuthPlugins
+    authPlugins app = authOpenId Claimed [] : extraAuthPlugins
         -- Enable authDummy login if enabled.
         where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+
+-- The simplest layout, used to return widgets without the complete page in ajax requests
+ajaxContentLayout :: Widget -> Handler Html
+ajaxContentLayout widget = do
+    pc <- widgetToPageContent widget
+    withUrlRenderer [hamlet| ^{pageBody pc} |]
 
 -- | Access function to determine if a user is logged in.
 isAuthenticated :: Handler AuthResult
@@ -356,7 +360,7 @@ isAjaxRequest :: Handler Bool
 isAjaxRequest = do
     req <- waiRequest
     let reqwith = lookup "X-Requested-With" $ Wai.requestHeaders req
-    return $ maybe False (== "XMLHttpRequest") reqwith
+    return $ reqwith == Just "XMLHttpRequest"
 
 -- key used by session to check if cookies are accepted
 cookiesKey :: Text

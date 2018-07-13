@@ -1,3 +1,8 @@
+<div .modal>
+  <div .modal-background>
+  <div .modal-content.box>
+  <button .modal-close.is-large aria-label="close">
+
 ^{newNoteWidget}
 
 <div ##{noteListId} .container.columns.is-multiline.is-centered>
