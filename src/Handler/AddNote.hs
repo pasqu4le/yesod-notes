@@ -36,7 +36,7 @@ postAddNoteHTML = do
         FormSuccess res -> do
             let newNote = Note (NoteForm.title res) (uid) (unTextarea $ NoteForm.content res)
             note <- runDB $ insertEntity newNote
-            redirectUltDest $ NoteR (entityKey note)
+            redirect $ NoteR (entityKey note)
         _ -> defaultLayout $ do
             setTitle "Add a note!"
             $(widgetFile "notes/add")
@@ -53,17 +53,13 @@ postAddNoteAJAX :: Handler Html
 postAddNoteAJAX = do
     uid <- requireAuthId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    let note = Note (NoteForm.title res) (uid) (unTextarea $ NoteForm.content res)
+    let note = Note (NoteForm.cleanTitle res) (uid) (unTextarea $ NoteForm.content res)
     insertedNote <- runDB $ insertEntity note
     let noteId = entityKey insertedNote
-    insertedNoteLayout $ do
+    ajaxContentLayout $ do
         let noNoteButtons = False
-        $(widgetFile "notes/view")
-
-insertedNoteLayout :: Widget -> Handler Html
-insertedNoteLayout widget = do
-    pc <- widgetToPageContent widget
-    withUrlRenderer [hamlet| 
+            noteWidget = $(widgetFile "notes/view")
+        [whamlet|
             <div .column.is-narrow>
-                ^{pageBody pc} 
+                ^{noteWidget}
         |]
