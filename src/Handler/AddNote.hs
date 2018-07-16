@@ -34,7 +34,7 @@ postAddNoteHTML = do
     setUltDestReferer
     case result of
         FormSuccess res -> do
-            let newNote = Note (NoteForm.title res) (uid) (unTextarea $ NoteForm.content res)
+            let newNote = Note (NoteForm.title res) (uid) (NoteForm.content res)
             note <- runDB $ insertEntity newNote
             redirect $ NoteR (entityKey note)
         _ -> defaultLayout $ do
@@ -45,7 +45,7 @@ postAddNoteJSON :: Handler Value
 postAddNoteJSON = do
     uid <- requireAuthId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    let note = Note (NoteForm.title res) (uid) (unTextarea $ NoteForm.content res)
+    let note = Note (NoteForm.title res) (uid) (NoteForm.content res)
     insertedNote <- runDB $ insertEntity note
     returnJson insertedNote
 
@@ -53,7 +53,7 @@ postAddNoteAJAX :: Handler Html
 postAddNoteAJAX = do
     uid <- requireAuthId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    let note = Note (NoteForm.cleanTitle res) (uid) (unTextarea $ NoteForm.content res)
+    let note = Note (NoteForm.cleanTitle res) (uid) (NoteForm.content res)
     insertedNote <- runDB $ insertEntity note
     let noteId = entityKey insertedNote
     ajaxContentLayout $ do

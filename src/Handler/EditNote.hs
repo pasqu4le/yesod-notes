@@ -32,7 +32,7 @@ postEditNoteAJAX :: NoteId -> Handler Html
 postEditNoteAJAX noteId = do
     _ <- runDB $ get404 noteId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. unTextarea (NoteForm.content res)]
+    runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. NoteForm.content res]
     note <- runDB $ get404 noteId 
     ajaxContentLayout $ do
         let noNoteButtons = False
@@ -44,7 +44,7 @@ postEditNoteHTML noteId = do
     ((result, formWidget), formEnctype) <- runFormPost (NoteForm.fromNote note)
     case result of
         FormSuccess res -> do
-            runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. unTextarea (NoteForm.content res)]
+            runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. NoteForm.content res]
             redirect $ NoteR noteId
         _ -> defaultLayout $ do
             setTitle "Edit note"
@@ -55,6 +55,6 @@ postEditNoteJSON :: NoteId -> Handler Value
 postEditNoteJSON noteId = do
     _ <- runDB $ get404 noteId
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. unTextarea (NoteForm.content res)]
+    runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. NoteForm.content res]
     note <- runDB $ get404 noteId
     returnJson note

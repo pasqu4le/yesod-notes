@@ -14,5 +14,5 @@ Email
 Note json -- Adding "json" causes ToJSON and FromJSON instances to be derived.
     title Text Maybe
     userId UserId
-    content Text
+    content Textarea
     deriving Show

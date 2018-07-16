@@ -25,7 +25,7 @@ empty = Bulma.render $ NoteForm
 fromNote :: Note -> Form NoteForm
 fromNote note = Bulma.render $ NoteForm
     <$> aopt textField (Bulma.inputSetting "Title") (Just $ noteTitle note)
-    <*> areq textareaField (Bulma.textareaSetting "Content") (Just . Textarea $ noteContent note)
+    <*> areq textareaField (Bulma.textareaSetting "Content") (Just $ noteContent note)
 
 cleanTitle :: NoteForm -> Maybe Text
 cleanTitle noteForm = case title noteForm of
