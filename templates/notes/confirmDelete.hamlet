@@ -1,6 +1,8 @@
 <h1 .title>Are you sure you want to delete this note?
-<p .tag.is-danger.is-large>NOTE: This cannot be undone
+
 <form .form method=post action=@{DeleteNoteR noteId}>
+    <div .field>
+        <label .tag.is-danger.is-medium>NOTE: This cannot be undone
     <div .buttons.is-right>
         <a .note-action-cancel .button.is-light href="@{NoteR noteId}">
             <span .icon>

@@ -196,7 +196,8 @@ instance Yesod App where
 
         pc <- widgetToPageContent $ do
             addStylesheet $ StaticR css_bulma_css
-            let cookiesWidget = $(widgetFile "cookies/widget")
+            let isHomePage = Just HomeR == mcurrentRoute
+                cookiesWidget = $(widgetFile "cookies/widget")
             $(widgetFile "default-layout")
         withUrlRenderer $(hamletFile "templates/default-layout-wrapper.hamlet")
 

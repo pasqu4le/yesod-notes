@@ -20,7 +20,7 @@
 
 <!-- Page Contents -->
 
-$if not $ Just HomeR == mcurrentRoute
+$if not isHomePage
     <section .section.container>
         <div .breadcrumb.box aria-label="breadcrumbs">
             <ul>
@@ -29,13 +29,18 @@ $if not $ Just HomeR == mcurrentRoute
                         <a href="@{fst bc}">#{snd bc}
                 <li .is-active>
                     <a href="#" aria-current="page">#{title}
+        $maybe msg <- mmsg
+            <div .container.notification.is-info #message>
+                <button .delete.scriptonly></button>
+                #{msg}
+$else
+    $maybe msg <- mmsg
+        <div .hero.is-small.is-dark">
+            <div .container.notification.is-info #message>
+                <button .delete.scriptonly></button>
+                #{msg}
 
-$maybe msg <- mmsg
-    <div .container.notification.is-info #message>
-        <button .delete.scriptonly></button>
-        #{msg}
-
-$if (Just HomeR == mcurrentRoute)
+$if isHomePage
     ^{widget}
 $else
     <div .container>
