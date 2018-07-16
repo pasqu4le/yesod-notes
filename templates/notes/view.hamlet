@@ -1,16 +1,23 @@
 $with noteBoxId <- "note-box-" ++ either id id (fromPersistValueText $ toPersistValue $ toBackendKey noteId)
     <div .box ##{noteBoxId}>
-        $maybe existingTitle <- noteTitle note
-            <h1 .title>#{existingTitle}
-        <p .content>#{noteContent note}
-        $if not noNoteButtons
-            <hr>
-            <div .buttons.is-right.has-addons>
-                <a .note-action.button.is-light href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
-                    <span .icon>
-                        <i .fas.fa-trash>
-                    <span>Delete
-                <a .note-action.button.is-primary href="@{EditNoteR noteId}" data-target=#{noteBoxId}>
-                    <span .icon>
-                        <i .fas.fa-pen>
-                    <span>Edit
+        <a .content href=@{NoteR noteId}>
+            $maybe existingTitle <- noteTitle note
+                <h1 .title>#{existingTitle}
+            <h4>#{noteContent note}
+        <hr>
+        <div .level>
+            <div .level-left>
+                <div .level-item.buttons.has-addons>
+                    <a .button.is-light href=@{NoteR noteId}>
+                        <span .icon>
+                            <i .fas.fa-link>
+            <div .level-right>
+                <div .level-item.buttons.has-addons>
+                    <a .note-action.button.is-light href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
+                        <span .icon>
+                            <i .fas.fa-trash>
+                        <span .is-hidden-mobile>Delete
+                    <a .note-action.button.is-primary href="@{EditNoteR noteId}" data-target=#{noteBoxId}>
+                        <span .icon>
+                            <i .fas.fa-pen>
+                        <span>Edit

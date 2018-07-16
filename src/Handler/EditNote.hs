@@ -34,9 +34,7 @@ postEditNoteAJAX noteId = do
     res <- (requireJsonBody :: Handler NoteForm.NoteForm)
     runDB $ update noteId [NoteTitle =. NoteForm.cleanTitle res, NoteContent =. NoteForm.content res]
     note <- runDB $ get404 noteId 
-    ajaxContentLayout $ do
-        let noNoteButtons = False
-        $(widgetFile "notes/view")
+    ajaxContentLayout $(widgetFile "notes/view")
 
 postEditNoteHTML :: NoteId -> Handler Html
 postEditNoteHTML noteId = do

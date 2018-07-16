@@ -17,7 +17,6 @@ getDeleteNoteR noteId = do
         note <- runDB $ get404 noteId
         defaultLayout $ do
             let noteWidget = $(widgetFile "notes/view")
-                noNoteButtons = True
             setTitle "Delete note"
             $(widgetFile "notes/delete")
 

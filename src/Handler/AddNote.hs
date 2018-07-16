@@ -57,8 +57,7 @@ postAddNoteAJAX = do
     insertedNote <- runDB $ insertEntity note
     let noteId = entityKey insertedNote
     ajaxContentLayout $ do
-        let noNoteButtons = False
-            noteWidget = $(widgetFile "notes/view")
+        let noteWidget = $(widgetFile "notes/view")
         [whamlet|
             <div .column.is-narrow>
                 ^{noteWidget}
