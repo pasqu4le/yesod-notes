@@ -1,8 +1,6 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeFamilies #-}
 {-# LANGUAGE QuasiQuotes #-}
 module Handler.AddNote where
 
@@ -16,49 +14,52 @@ getAddNoteR = do
         setTitle "Add a note"
         $(widgetFile "notes/add")
 
--- TODO: check if is Ajax with X-Requested-With
 postAddNoteR :: Handler TypedContent
 postAddNoteR = do
+    uid <- requireAuthId
     isAjax <- isAjaxRequest
     if isAjax then
-        selectRep $ provideRep postAddNoteAJAX
+        selectRep $ provideRep $ postAddNoteAJAX uid
     else
         selectRep $ do
-            provideRep postAddNoteHTML
-            provideRep postAddNoteJSON
+            provideRep $ postAddNoteHTML uid
+            provideRep $ postAddNoteJSON uid
 
-postAddNoteHTML :: Handler Html
-postAddNoteHTML = do
-    uid <- requireAuthId
+postAddNoteHTML :: UserId -> Handler Html
+postAddNoteHTML uid = do
     ((result, formWidget), formEnctype) <- runFormPost NoteForm.empty
     setUltDestReferer
     case result of
         FormSuccess res -> do
-            let newNote = Note (NoteForm.title res) (uid) (NoteForm.content res) (NoteForm.public res)
-            note <- runDB $ insertEntity newNote
+            note <- insertNote res uid
             redirect $ NoteR (entityKey note)
         _ -> defaultLayout $ do
             setTitle "Add a note!"
             $(widgetFile "notes/add")
 
-postAddNoteJSON :: Handler Value
-postAddNoteJSON = do
-    uid <- requireAuthId
-    res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    let note = Note (NoteForm.title res) (uid) (NoteForm.content res) (NoteForm.public res)
-    insertedNote <- runDB $ insertEntity note
-    returnJson insertedNote
+postAddNoteJSON :: UserId -> Handler Value
+postAddNoteJSON uid = do
+    res <- requireJsonBody :: Handler NoteForm.NoteForm
+    newNote <- insertNote res uid
+    returnJson $ entityVal newNote
 
-postAddNoteAJAX :: Handler Html
-postAddNoteAJAX = do
-    uid <- requireAuthId
-    res <- (requireJsonBody :: Handler NoteForm.NoteForm)
-    let note = Note (NoteForm.cleanTitle res) (uid) (NoteForm.content res) (NoteForm.public res)
-    insertedNote <- runDB $ insertEntity note
-    let noteId = entityKey insertedNote
+postAddNoteAJAX :: UserId -> Handler Html
+postAddNoteAJAX uid = do
+    res <- requireJsonBody :: Handler NoteForm.NoteForm
+    newNote <- insertNote res uid
+    let noteId = entityKey newNote
+        note = entityVal newNote
     ajaxContentLayout $ do
         let noteWidget = $(widgetFile "notes/view")
         [whamlet|
             <div .column.is-narrow>
                 ^{noteWidget}
         |]
+
+insertNote :: NoteForm.NoteForm -> UserId -> Handler (Entity Note)
+insertNote form uid = runDB . insertEntity $ Note {
+        noteTitle = NoteForm.cleanTitle form,
+        noteUserId = uid, 
+        noteContent = NoteForm.content form,
+        notePublic = NoteForm.public form
+    }
