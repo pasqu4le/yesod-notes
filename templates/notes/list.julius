@@ -28,8 +28,9 @@ $(function() {
       success: function (data) {
         $(".modal").addClass("is-active");
         $(".modal-content").html(data);
+        // Make another ajax request depending on the button pressed
         
-        // If a confirm deletion button is pressed make another ajax request
+        // Confirm deletion button
         $(".note-action-delete-confirm").click(function(confirmDelEvent) {
           confirmDelEvent.preventDefault();
           
@@ -48,12 +49,33 @@ $(function() {
           });
         });
 
-        // If a save edit button is pressed make another ajax request
+        $(".note-action-public-confirm").click(function(confirmPubEvent) {
+          confirmPubEvent.preventDefault();
+          
+          $.ajax({
+            url: actionLink,
+            type: 'POST',
+            success: function (data) {
+              // If the request was a success close the modal and change the visibility icon
+              closeModal();
+              var pubIcon = $(noteBoxId).find(".public-icon > i");
+              pubIcon.toggleClass("fa-unlock-alt");
+              pubIcon.toggleClass("fa-lock");
+            },
+            error: function (data) {
+              closeModal();
+              console.log("Error while confirming visibility change: " + data);
+            },
+          });
+        });
+
+        // Save edit button
         $(".note-action-edit-save").click(function(saveEditEvent) {
           saveEditEvent.preventDefault();
           
           var title = $(".modal-content").find("input.input").val();
           var content = $(".modal-content").find("textarea").val();
+          var public = $(".modal-content").find("input.checkbox").prop("checked");
           $.ajax({
             url: actionLink,
             type: 'POST',
@@ -61,6 +83,7 @@ $(function() {
             data: JSON.stringify({
               title: title,
               content: content,
+              public: public
             }),
             success: function (data) {
               // If the request was a success close the modal and update the note

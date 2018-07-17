@@ -4,7 +4,7 @@
         ^{formWidget}
         <hr>
         <div .buttons.is-right>
-            <button .button.is-primary type="submit">
+            <button .button.is-success type="submit">
                 <span .icon>
                     <i .fas.fa-plus>
                 <span>Add note

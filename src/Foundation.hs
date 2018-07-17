@@ -219,14 +219,14 @@ instance Yesod App where
     isAuthorized (StaticR _) _ = return Authorized
     isAuthorized CookiesR _ = return Authorized
 
-    -- the profile route requires that the user is authenticated, so we
-    -- delegate to that function
+    -- Routes requiring authentication and/or ownership of a note
     isAuthorized ProfileR _ = isAuthenticated
     isAuthorized NotesR _ = isAuthenticated
-    isAuthorized (NoteR nid) _ = isNoteOwner nid
+    isAuthorized (NoteR nid) _ = isNoteViewable nid
     isAuthorized AddNoteR _ = isAuthenticated
     isAuthorized (EditNoteR nid) _ = isNoteOwner nid
     isAuthorized (DeleteNoteR nid) _ = isNoteOwner nid
+    isAuthorized (PublicNoteR nid) _ = isNoteOwner nid
 
     -- This function creates static content files in the static folder
     -- and names them based on a hash of their content. This allows
@@ -286,6 +286,7 @@ instance YesodBreadcrumbs App where
     breadcrumb AddNoteR = return ("Add", Just NotesR)
     breadcrumb (EditNoteR noteId) = return ("Edit", Just $ NoteR noteId)
     breadcrumb (DeleteNoteR noteId) = return ("Delete", Just $ NoteR noteId)
+    breadcrumb (PublicNoteR noteId) = return ("Change visibility", Just $ NoteR noteId)
     breadcrumb CookiesR = return ("Cookies", Just HomeR)
     breadcrumb  _ = return ("Home", Nothing)
 
@@ -337,7 +338,7 @@ ajaxContentLayout widget = do
     pc <- widgetToPageContent widget
     withUrlRenderer [hamlet| ^{pageBody pc} |]
 
--- | Access function to determine if a user is logged in.
+-- Access function to determine if a user is logged in.
 isAuthenticated :: Handler AuthResult
 isAuthenticated = do
     muid <- maybeAuthId
@@ -345,11 +346,22 @@ isAuthenticated = do
         Nothing -> AuthenticationRequired
         Just _ -> Authorized
 
--- | Access function to determine if a user is the owner of a note
+-- Access function to determine if a note can be viewed
+isNoteViewable :: NoteId -> Handler AuthResult
+isNoteViewable noteId = do
+    note <- runDB $ get404 noteId
+    if notePublic note then return Authorized else ownsNote note
+
+-- Access function to determine if a user is the owner of a note
 isNoteOwner :: NoteId -> Handler AuthResult
 isNoteOwner noteId = do
-    muid <- maybeAuthId
     note <- runDB $ get404 noteId
+    ownsNote note
+
+-- utility function to check note ownership
+ownsNote :: Note -> Handler AuthResult
+ownsNote note = do
+    muid <- maybeAuthId
     return $ case muid of
         Nothing -> AuthenticationRequired
         Just uid -> if noteUserId note == uid

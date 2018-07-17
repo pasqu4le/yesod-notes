@@ -11,14 +11,14 @@ import Import
 getDeleteNoteR :: NoteId -> Handler Html
 getDeleteNoteR noteId = do
     isAjax <- isAjaxRequest
-    let confirmWidget = $(widgetFile "notes/confirmDelete")
+    let confirmWidget = $(widgetFile "notes/confirm/delete")
     if isAjax then ajaxContentLayout confirmWidget
     else do
         note <- runDB $ get404 noteId
         defaultLayout $ do
             let noteWidget = $(widgetFile "notes/view")
             setTitle "Delete note"
-            $(widgetFile "notes/delete")
+            $(widgetFile "notes/confirm/withNote")
 
 postDeleteNoteR :: NoteId -> Handler Html
 postDeleteNoteR noteId = do

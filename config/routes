@@ -16,3 +16,4 @@
 /notes/edit/#NoteId EditNoteR GET POST
 /notes/delete/#NoteId DeleteNoteR GET POST
 /cookies CookiesR GET POST
+/notes/public/#NoteId PublicNoteR GET POST

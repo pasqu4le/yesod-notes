@@ -5,15 +5,18 @@ $with noteBoxId <- "note-box-" ++ either id id (fromPersistValueText $ toPersist
                 <h1 .title>#{existingTitle}
             <h4>#{noteContent note}
         <hr>
-        <div .level>
+        <div .level.is-mobile>
             <div .level-left>
                 <div .level-item.buttons.has-addons>
+                    <a .note-action.button.is-info href=@{PublicNoteR noteId} data-target=#{noteBoxId}>
+                        <span .icon.public-icon>
+                            <i .fas :notePublic note:.fa-unlock-alt :not (notePublic note):.fa-lock>
                     <a .button.is-light href=@{NoteR noteId}>
                         <span .icon>
                             <i .fas.fa-link>
             <div .level-right>
                 <div .level-item.buttons.has-addons>
-                    <a .note-action.button.is-light href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
+                    <a .note-action.button.is-dark href="@{DeleteNoteR noteId}" data-target=#{noteBoxId}>
                         <span .icon>
                             <i .fas.fa-trash>
                         <span .is-hidden-mobile>Delete

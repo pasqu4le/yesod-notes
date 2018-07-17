@@ -6,7 +6,7 @@
             <span .icon>
                 <i .fas.fa-times>
             <span>Cancel
-        <button .note-action-edit-save .button.is-primary type="submit">
+        <button .note-action-edit-save .button.is-success type="submit">
             <span .icon>
                 <i .fas.fa-check>
             <span>Save

@@ -1,0 +1,24 @@
+<h1 .title>Change note visibility
+
+<form .form method=post action=@{PublicNoteR noteId}>
+    <div .field>
+        <label .content>
+            $if notePublic note
+                This note is public, this means anybody can see it's content. You can set it to private if you want to be the only one able to see it.
+            $else
+                This note is private, this means you are the only one able to see it's content. You can set it to public if anyone with the link to be able to see it.
+    <div .field>
+        <label .content>In both cases you'll be the only one able to delete or modify it.
+    <div .buttons.is-right>
+        <a .note-action-cancel .button.is-light href="@{NoteR noteId}">
+            <span .icon>
+                <i .fas.fa-times>
+            <span>Cancel
+        <button .note-action-public-confirm .button.is-danger type="submit">
+            <span .icon>
+                <i .fas.fa-check>
+            <span>
+                $if notePublic note
+                    Make Private
+                $else
+                    Make Public

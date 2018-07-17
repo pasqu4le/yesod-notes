@@ -9,3 +9,41 @@
 .footer {
     margin-top: 100px;
 }
+
+.checkbox.public {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    box-shadow: none;
+    background-color: #00d1b2;
+    border-color: transparent;
+    border-width: 1px;
+    color: #fff;
+    cursor: pointer;
+    justify-content: center;
+    padding-bottom: calc(.375em - 1px);
+    padding-left: .75em;
+    padding-right: .75em;
+    padding-top: calc(.375em - 1px);
+    text-align: center;
+    white-space: nowrap;
+    font-size: 1rem;
+    height: 2.25em;
+    user-select: none;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+
+.checkbox.public:before {
+    display: block;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f023   Private";
+}
+
+.checkbox.public:checked:before {
+    content: "\f13e   Public";
+}
