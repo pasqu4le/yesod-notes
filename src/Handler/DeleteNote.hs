@@ -18,10 +18,12 @@ getDeleteNoteR noteId = do
             setTitle "Delete note"
             $(widgetFile "notes/confirm/withNote")
 
-postDeleteNoteR :: NoteId -> Handler Html
+postDeleteNoteR :: NoteId -> Handler TypedContent
 postDeleteNoteR noteId = do
     runDB $ delete noteId
     setMessage "Your note was successfully deleted"
     isAjax <- isAjaxRequest
-    if isAjax then ajaxContentLayout $ toWidget [hamlet|<h1>Deleted|]
-    else redirect NotesR
+    if isAjax then selectRep $ provideRep $ ajaxContentLayout $ toWidget [hamlet|<h1>Deleted|]
+    else selectRep $ do
+        provideRep $ (redirect NotesR :: Handler Html)
+        provideJson ("Note deleted successfully" :: Text)
