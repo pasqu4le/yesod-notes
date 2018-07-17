@@ -9,7 +9,8 @@ import Import
 
 getProfileR :: Handler Html
 getProfileR = do
-    (_, user) <- requireAuthPair
+    (uid, user) <- requireAuthPair
+    noteNumber <- runDB $ count [NoteUserId ==. uid]
     defaultLayout $ do
         setTitle . toHtml $ userIdent user <> "'s User page"
         $(widgetFile "profile")

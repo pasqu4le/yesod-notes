@@ -1,6 +1,11 @@
-<article .message.is-success>
-      <div .message-header>
-        <p>Access granted!
-      <div .message-body>
-        <p>This page is protected and access is allowed only for authenticated users.
-        <p>Your data is protected with us <strong><span class="username">#{userIdent user}</span></strong>!
+<h1 .title.has-text-centered>Hey there, #{userIdent user}</strong>!
+<div .box.level.is-mobile>
+    $if noteNumber == 0
+        <p .level-left>You don't have any note
+        <a .level-right.button.is-info href=@{AddNoteR}>Start now
+    $elseif noteNumber == 1
+        <p .level-left>You have just one note
+        <a .level-right.button.is-success href=@{NotesR}>Take a look
+    $else
+        <p .level-left>You have #{noteNumber} notes
+        <a .level-right.button.is-success href=@{NotesR}>View them
