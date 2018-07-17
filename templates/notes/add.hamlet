@@ -1,6 +1,5 @@
 <div .box>
-    <p .title>Add a new Note
-    <form .form method=post action=@{AddNoteR} enctype=#{formEnctype}>
+    <form #add-note-form .form method=post action=@{AddNoteR} enctype=#{formEnctype}>
         ^{formWidget}
         <hr>
         <div .buttons.is-right>

@@ -6,7 +6,6 @@
 module Handler.Notes where
 
 import Import
-import Text.Julius (RawJS (..))
 import qualified Form.Note as NoteForm
 
 getNotesR :: Handler TypedContent
@@ -21,9 +20,7 @@ getNotesHTML :: [Entity Note] -> Handler Html
 getNotesHTML noteList = do
     (formWidget, formEnctype) <- generateFormPost NoteForm.empty
     defaultLayout $ do
-        let noteListId = "noteList" :: Text
-            newNoteFormId = "js-newNoteForm" :: Text
-            newNoteWidget = $(widgetFile "notes/new")
+        let newNoteWidget = $(widgetFile "notes/add")
         setTitle "My Notes"
         $(widgetFile "notes/list")
 

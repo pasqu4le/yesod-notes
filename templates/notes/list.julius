@@ -1,4 +1,42 @@
 $(function() {
+  // Function to add a note using ajax
+  $("#add-note-form").submit(function(addNoteEvent) {
+    addNoteEvent.preventDefault();
+
+    var title = $(this).find("input.input");
+    var content = $(this).find("textarea");
+    var public = $(this).find("input.checkbox");
+
+    // alert for browsers that do not enforce the "required" attribute
+    if (!content) {
+      alert("Please fill out your new note content first.");
+      return;
+    }
+
+    // Make an AJAX request to the server to create a new note
+    $.ajax({
+      url: '@{AddNoteR}',
+      type: 'POST',
+      contentType: "application/json",
+      data: JSON.stringify({
+        title: title.val(),
+        content: content.val(),
+        public: public.prop("checked")
+      }),
+      success: function (data) {
+        // prepend the resulting note and clear the form
+        $("#note-list").prepend(data);
+        title.val("");
+        content.val("");
+        public.prop("checked", false)
+      },
+      error: function (data) {
+        alert("Something went wrong in the node creation");
+        console.log("Error creating note: " + data);
+      },
+    });
+  });
+
   // Function to clear the content and close the modal
   function closeModal() {
     $(".modal-content").html("");
@@ -16,7 +54,7 @@ $(function() {
   });
 
   // Make an AJAX request to populate and open a modal instead of changing page
-  $("##{rawJS noteListId}").on( "click", ".note-action", function(event) {
+  $("#note-list").on( "click", ".note-action", function(event) {
     event.preventDefault();
 
     var actionLink = $(this).attr("href");
@@ -44,6 +82,7 @@ $(function() {
             },
             error: function (data) {
               closeModal();
+              alert("Something went wrong, the note was not deleted");
               console.log("Error while confirming deletion: " + data);
             },
           });
@@ -64,6 +103,7 @@ $(function() {
             },
             error: function (data) {
               closeModal();
+              alert("Something went wrong, the note visibility was not changed");
               console.log("Error while confirming visibility change: " + data);
             },
           });
@@ -76,6 +116,13 @@ $(function() {
           var title = $(".modal-content").find("input.input").val();
           var content = $(".modal-content").find("textarea").val();
           var public = $(".modal-content").find("input.checkbox").prop("checked");
+
+          // alert for browsers that do not enforce the "required" attribute
+          if (!content) {
+            alert("You cannot leave your note content empty.");
+            return;
+          }
+
           $.ajax({
             url: actionLink,
             type: 'POST',
@@ -91,7 +138,7 @@ $(function() {
               $(noteBoxId).parent().html(data);
             },
             error: function (data) {
-              closeModal();
+              alert("Something went wrong, your changes were not saved");
               console.log("Error while saving changes: " + data);
             },
           });

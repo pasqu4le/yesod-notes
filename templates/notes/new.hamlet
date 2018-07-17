@@ -1,9 +1,0 @@
-<div .box>
-    <form .form ##{newNoteFormId} method=post action=@{AddNoteR} enctype=#{formEnctype}>
-        ^{formWidget}
-        <hr>
-        <div .buttons.is-right>
-            <button .button.is-success type="submit">
-                <span .icon>
-                    <i .fas.fa-plus>
-                <span>Add note
