@@ -1,13 +1,76 @@
-<section .hero.is-dark.is-fullheight>
-    <div .hero-body>
-        <div .container>
-            <div .columns>
-                <div .column.is-4-desktop.is-3-tablet>
-                    <img src="@{StaticR imgs_stack_png}">
-                <div .column.has-text-centered>
-                    <h1 .title> Yesod—notes
-                    <p .subtitle> Blazing fast note-taking
+<section .hero.is-primary.is-medium>
+    <div .hero-body.container>
+        <div .columns>
+            <div .column.is-4>
+                <img .is-hidden-mobile src="@{StaticR imgs_stack_png}">
+            <div .column.has-text-centered>
+                <h1 .title>Yesod—notes
+                <p .subtitle>Blazing fast note-taking
+                <p .content>
+                    <strong>Write read and share some notes.
+                <a .button.is-light.is-large href=@{AuthR LoginR}>Login
 
-<div .container.has-text-centered>
-    <h1 .title>Something something
-    <a href=@{NotesR} .subtitle>Here are your notes
+<section #hero-tabs .hero.is-primary>
+    <div .hero-foot>
+        <nav .tabs.is-boxed.is-centered>
+            <ul>
+                <li>
+                    <a href="#bulma">Bulma
+                <li>
+                    <a href="#javascript">JavaScript
+                <li>
+                    <a href="#json">Json API
+                <li>
+                    <a href="#cookies">Cookies
+                <li>
+                    <a href="#about">About
+
+<section #bulma .hero.is-medium.is-light>
+    <div .hero-body.container>
+        <div .columns>
+            <div .column>
+                <img src="https://bulma.io/images/made-with-bulma--semiblack.png">
+            <div .column.has-text-centered>
+                <h1 .title.is-hidden-mobile>Bulma CSS Framework
+                <p .subtitle>A modern open source CSS framework based on Flexbox
+                <a .button.is-info href="https://bulma.io/">Check it out
+
+<section #javascript .hero.is-warning.is-bold>
+    <div .hero-body.container>
+        <div .columns>
+            <div .column.has-text-centered.content>
+                <h1>A little bit of Javascript...
+                <p>Some Jquery and Ajax code is used for in-page interactions
+                <h1>... or none at all.
+                <p>you can disable javascript in your browser and this website will still work perfectly
+            <div .column.is-3>
+                <img .is-hidden-mobile src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png">
+
+<section #json .hero.is-light>
+    <div .hero-body.container>
+        <div .columns>
+            <div .column.is-3>
+                <img src="https://www.vectorlogo.zone/logos/json/json-card.png">
+            <div .column.has-text-centered>
+                <h1 .title.is-hidden-mobile>JSON API
+                <p .subtitle>You can POST and GET using json on most pages, just use <code>application/json</code> as your HTTP Accept Header
+
+<section #cookies .hero.is-info.is-bold>
+    <div .hero-body.container>
+        <div .has-text-centered>
+            <h1 .title>Cookies
+            <p .subtitle>We use just one, necessary, cookie
+            <a .button.is-success href=@{CookiesR}>Read More
+
+<section #about .hero.is-medium.is-light>
+    <div .hero-body.container>
+        <div .has-text-centered.content>
+            <h1>About
+            <p>This website is a toy project that I made to get familiar with the Yesod Web Framework
+            <p>It's open source. If you'd like to know more, make a suggestion or open up an issue:
+            <a .button.is-dark href="https://github.com/pasqu4le/yesod-notes">
+                <span .icon>
+                    <i .fab.fa-github-alt>
+                <span>Github Page
+
+            <h1>TODO: CREDITS

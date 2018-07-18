@@ -1,0 +1,32 @@
+#hero-tabs {
+    position: sticky;
+    top: 3.25rem;
+    z-index: 1;
+}
+
+@media screen and (max-width: 499px) {
+    #hero-tabs .tabs {
+        font-size: .75rem;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #hero-tabs .tabs {
+        font-size: 1.25rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #hero-tabs .tabs {
+        font-size: 1.5rem;
+    }
+}
+
+.hero:target{
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+}
+
+.hero-body {
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}

@@ -35,7 +35,7 @@ $if not isHomePage
                 #{msg}
 $else
     $maybe msg <- mmsg
-        <div .hero.is-small.is-dark">
+        <div .hero.is-primary">
             <div .container.notification.is-info #message>
                 <button .delete.scriptonly></button>
                 #{msg}

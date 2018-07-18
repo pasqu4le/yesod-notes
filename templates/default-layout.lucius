@@ -2,10 +2,6 @@
     display: none;
 }
 
-.hero-body {
-    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-}
-
 .footer {
     margin-top: 100px;
 }
