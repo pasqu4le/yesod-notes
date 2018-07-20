@@ -43,6 +43,10 @@ data AppSettings = AppSettings
     -- ^ Get the IP address from the header when logging. Useful when sitting
     -- behind a reverse proxy.
 
+    , appGoogleClientId           :: Text
+    , appGoogleSecretId           :: Text
+    -- ^ API key to use Google Email Authentication
+
     , appDetailedRequestLogging :: Bool
     -- ^ Use detailed request logging system
     , appShouldLogAll           :: Bool
@@ -78,6 +82,9 @@ instance FromJSON AppSettings where
         appHost                   <- fromString <$> o .: "host"
         appPort                   <- o .: "port"
         appIpFromHeader           <- o .: "ip-from-header"
+
+        appGoogleClientId         <- o .: "google-client-id"
+        appGoogleSecretId         <- o .: "google-secret-id"
 
         dev                       <- o .:? "development"      .!= defaultDev
 

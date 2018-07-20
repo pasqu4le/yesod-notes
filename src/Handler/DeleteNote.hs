@@ -25,5 +25,5 @@ postDeleteNoteR noteId = do
     isAjax <- isAjaxRequest
     if isAjax then selectRep $ provideRep $ ajaxContentLayout $ toWidget [hamlet|<h1>Deleted|]
     else selectRep $ do
-        provideRep $ (redirect NotesR :: Handler Html)
+        provideRep (redirect NotesR :: Handler Html)
         provideJson ("Note deleted successfully" :: Text)

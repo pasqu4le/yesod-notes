@@ -22,8 +22,8 @@ import qualified Network.Wai as Wai
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
 
-import Yesod.Auth.OpenId    (authOpenId, IdentifierType (..), forwardUrl)
-import qualified Yesod.Auth.Message as AuMsg
+import qualified Yesod.Auth.OpenId as OpenId
+import qualified Yesod.Auth.GoogleEmail2 as GEmail2
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
@@ -329,9 +329,16 @@ instance YesodAuth App where
 
     -- You can add other plugins like Google Email, email or OAuth here
     authPlugins :: App -> [AuthPlugin App]
-    authPlugins app = authOpenId OPLocal [] : extraAuthPlugins
-        -- Enable authDummy login if enabled.
-        where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+    authPlugins app = (if useDummy then (authDummy :) else id) [
+                GEmail2.authGoogleEmail googleClientId googleSecretId,
+                OpenId.authOpenId OpenId.OPLocal []
+            ]
+        where
+            -- Enable authDummy login if enabled.
+            useDummy = appAuthDummyLogin $ appSettings app
+            -- API keys to use google email auth
+            googleClientId = appGoogleClientId $ appSettings app
+            googleSecretId = appGoogleSecretId $ appSettings app
 
     loginHandler = do
         tm <- getRouteToParent
@@ -340,7 +347,7 @@ instance YesodAuth App where
             request <- getRequest
             let useDummy = appAuthDummyLogin $ appSettings app
                 openidName = "openid_identifier" :: Text
-            setTitleI AuMsg.LoginTitle
+            setTitle "Login"
             $(widgetFile "login")
 
 -- The simplest layout, used to return widgets without the complete page in ajax requests

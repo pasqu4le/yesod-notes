@@ -6,6 +6,9 @@ host:           "_env:YESOD_HOST:*4" # any IPv4 host
 port:           "_env:YESOD_PORT:3000" # NB: The port `yesod devel` uses is distinct from this value. Set the `yesod devel` port from the command line.
 ip-from-header: "_env:YESOD_IP_FROM_HEADER:false"
 
+google-client-id: "_env:YESOD_GOOGLE_CLIENT_ID:dummy-client"
+google-secret-id: "_env:YESOD_GOOGLE_SECRET_ID:dummy-secret"
+
 # Default behavior: determine the application root from the request headers.
 # Uncomment to set an explicit approot
 #approot:        "_env:YESOD_APPROOT:http://localhost:3000"

@@ -1,10 +1,18 @@
 <div .columns>
     <div .column>
         <div .box>
+            <h1 .title.has-text-centered>OAuth 2.0
+            <a .button.is-large.is-fullwidth.is-danger.is-rounded href=@{tm GEmail2.forwardUrl}>
+                <span .icon>
+                    <i .fab.fa-google>
+                <span>Login using Google
+
+    <div .column>
+        <div .box>
             <h1 .title.has-text-centered>OpenID
             <div .columns.is-mobile>
                 <div .column>
-                    <form method="get" action="@{tm forwardUrl}">
+                    <form method="get" action="@{tm OpenId.forwardUrl}">
                         <input type="hidden" name="#{openidName}" value="http://me.yahoo.com">
                         <div .field.has-text-centered>
                             <button .button.is-large.is-rounded.is-link>
@@ -13,7 +21,7 @@
                             <p .help>Yahoo
 
                 <div .column>
-                    <form method="get" action="@{tm forwardUrl}">
+                    <form method="get" action="@{tm OpenId.forwardUrl}">
                         <input type="hidden" name="#{openidName}" value="https://openid.stackexchange.com">
                         <div .field.has-text-centered>
                             <button .button.is-large.is-rounded.is-info>
@@ -22,7 +30,7 @@
                             <p .help>StackExchange
 
                 <div .column>
-                    <form method="get" action="@{tm forwardUrl}">
+                    <form method="get" action="@{tm OpenId.forwardUrl}">
                         <input type="hidden" name="#{openidName}" value="https://steamcommunity.com/openid/">
                         <div .field.has-text-centered>
                             <button .button.is-large.is-rounded.is-dark>
@@ -37,15 +45,12 @@
                                 <i .fab.fa-pied-piper-pp>
                         <p .help>Pied Piper
 
-            <form method="get" action="@{tm forwardUrl}">
+            <form method="get" action="@{tm OpenId.forwardUrl}">
                 <div .field.has-addons>
                     <div .control.is-expanded>
                         <input .input type="text" name="#{openidName}" placeholder="Another Provider">
                     <div .control>
                         <button .button.is-info type="submit">Login
-    <div .column>
-        <div .box>
-            <h1 .title>TODO: GoogleEmail2
 
 $if useDummy
     <div .box>

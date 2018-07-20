@@ -2,6 +2,7 @@ dist*
 static/tmp/
 static/combined/
 config/client_session_key.aes
+config/google_auth_cred
 *.hi
 *.o
 *.sqlite3
