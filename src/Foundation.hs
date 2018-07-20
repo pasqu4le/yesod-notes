@@ -22,7 +22,8 @@ import qualified Network.Wai as Wai
 -- Used only when in "auth-dummy-login" setting is enabled.
 import Yesod.Auth.Dummy
 
-import Yesod.Auth.OpenId    (authOpenId, IdentifierType (Claimed))
+import Yesod.Auth.OpenId    (authOpenId, IdentifierType (..), forwardUrl)
+import qualified Yesod.Auth.Message as AuMsg
 import Yesod.Default.Util   (addStaticContentExternal)
 import Yesod.Core.Types     (Logger)
 import qualified Yesod.Core.Unsafe as Unsafe
@@ -328,9 +329,19 @@ instance YesodAuth App where
 
     -- You can add other plugins like Google Email, email or OAuth here
     authPlugins :: App -> [AuthPlugin App]
-    authPlugins app = authOpenId Claimed [] : extraAuthPlugins
+    authPlugins app = authOpenId OPLocal [] : extraAuthPlugins
         -- Enable authDummy login if enabled.
         where extraAuthPlugins = [authDummy | appAuthDummyLogin $ appSettings app]
+
+    loginHandler = do
+        tm <- getRouteToParent
+        app <- getYesod
+        authLayout $ do
+            request <- getRequest
+            let useDummy = appAuthDummyLogin $ appSettings app
+                openidName = "openid_identifier" :: Text
+            setTitleI AuMsg.LoginTitle
+            $(widgetFile "login")
 
 -- The simplest layout, used to return widgets without the complete page in ajax requests
 ajaxContentLayout :: Widget -> Handler Html

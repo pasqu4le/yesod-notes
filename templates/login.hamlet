@@ -1,0 +1,59 @@
+<div .columns>
+    <div .column>
+        <div .box>
+            <h1 .title.has-text-centered>OpenID
+            <div .columns.is-mobile>
+                <div .column>
+                    <form method="get" action="@{tm forwardUrl}">
+                        <input type="hidden" name="#{openidName}" value="http://me.yahoo.com">
+                        <div .field.has-text-centered>
+                            <button .button.is-large.is-rounded.is-link>
+                                <span .icon>
+                                    <i .fab.fa-yahoo>
+                            <p .help>Yahoo
+
+                <div .column>
+                    <form method="get" action="@{tm forwardUrl}">
+                        <input type="hidden" name="#{openidName}" value="https://openid.stackexchange.com">
+                        <div .field.has-text-centered>
+                            <button .button.is-large.is-rounded.is-info>
+                                <span .icon>
+                                    <i .fab.fa-stack-exchange>
+                            <p .help>StackExchange
+
+                <div .column>
+                    <form method="get" action="@{tm forwardUrl}">
+                        <input type="hidden" name="#{openidName}" value="https://steamcommunity.com/openid/">
+                        <div .field.has-text-centered>
+                            <button .button.is-large.is-rounded.is-dark>
+                                <span .icon>
+                                    <i .fab.fa-steam-symbol>
+                            <p .help>Steam
+
+                <div .column>
+                    <div .field.has-text-centered>
+                        <a .button.is-large.is-rounded.is-success href="http://www.piedpiper.com/">
+                            <span .icon>
+                                <i .fab.fa-pied-piper-pp>
+                        <p .help>Pied Piper
+
+            <form method="get" action="@{tm forwardUrl}">
+                <div .field.has-addons>
+                    <div .control.is-expanded>
+                        <input .input type="text" name="#{openidName}" placeholder="Another Provider">
+                    <div .control>
+                        <button .button.is-info type="submit">Login
+    <div .column>
+        <div .box>
+            <h1 .title>TODO: GoogleEmail2
+
+$if useDummy
+    <div .box>
+        <form method="post" action="@{tm (PluginR "dummy" [])}">
+            $maybe t <- reqToken request
+                <input type=hidden name=#{defaultCsrfParamName} value=#{t}>
+            <div .field.has-addons>
+                <div .control.is-expanded>
+                    <input .input type="text" name="ident" placeholder="Name">
+                <div .control>
+                    <button .button.is-info type="submit">Dummy Login

@@ -12,9 +12,9 @@ getProfileR = do
     noteNumber <- runDB $ count [NoteUserId ==. uid]
     selectRep $ do
         provideRep $ defaultLayout $ do
-            setTitle . toHtml $ userIdent user <> "'s User page"
+            setTitle "Profile Page"
             $(widgetFile "profile")
         provideJson $ Map.fromList [
-                ("username" :: Text, userIdent user),
+                ("user_identifier" :: Text, userIdent user),
                 ("note_number", pack $ show noteNumber)
             ]

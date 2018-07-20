@@ -1,4 +1,4 @@
-<h1 .title.has-text-centered>Hey there, #{userIdent user}</strong>!
+<h1 .title.has-text-centered>Hey there!
 <div .box.level.is-mobile>
     $if noteNumber == 0
         <p .level-left>You don't have any note

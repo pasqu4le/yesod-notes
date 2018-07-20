@@ -27,5 +27,5 @@ postPublicNoteR noteId = do
     isAjax <- isAjaxRequest
     if isAjax then selectRep $ provideRep $ ajaxContentLayout $ toWidget [hamlet|<h1>Updated|]
     else selectRep $ do
-        provideRep $ (redirect (NoteR noteId) :: Handler Html)
-        provideJson $ ("success: note visibility changed" :: Text)
+        provideRep (redirect (NoteR noteId) :: Handler Html)
+        provideJson ("success: note visibility changed" :: Text)

@@ -7,8 +7,17 @@
                 <h1 .title>Yesod—notes
                 <p .subtitle>Blazing fast note-taking
                 <p .content>
-                    <strong>Write read and share some notes.
-                <a .button.is-light.is-large href=@{AuthR LoginR}>Login
+                    <strong>Write, read and share some notes.
+                $maybe _ <- muid
+                    <a .button.is-light.is-large href=@{NotesR}>
+                        <span .icon>
+                            <i .fas.fa-sticky-note>
+                        <span>Your Notes
+                $nothing
+                    <a .button.is-light.is-large href=@{AuthR LoginR}>
+                        <span .icon>
+                            <i .fas.fa-sign-in-alt>
+                        <span>Login
 
 <section #hero-tabs .hero.is-primary>
     <div .hero-foot>

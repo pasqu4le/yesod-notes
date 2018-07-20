@@ -6,6 +6,8 @@ module Handler.Home where
 import Import
 
 getHomeR :: Handler Html
-getHomeR = defaultLayout $ do
-    setTitle "Welcome To Yesod-Notes"
-    $(widgetFile "homepage")
+getHomeR = do
+    muid <- maybeAuthId
+    defaultLayout $ do
+        setTitle "Welcome To Yesod-Notes"
+        $(widgetFile "homepage")
