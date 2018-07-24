@@ -1,6 +1,6 @@
 <nav ##{cookiesWidgetId} .navbar.is-fixed-bottom>
     <div .navbar-brand>
-        <p .navbar-item>This website uses cookies
-        <a .navbar-item href="@{CookiesR}">More Info
+        <a .navbar-item href="@{CookiesR}">This website uses cookies
+        <a .navbar-item.is-hidden-mobile href="@{CookiesR}">More Info
         <form method=post action=@{CookiesR} .navbar-item>
             <button ##{acceptCookiesId} .button.is-info type="submit">Got It!

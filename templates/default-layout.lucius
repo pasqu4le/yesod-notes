@@ -43,3 +43,8 @@
 .checkbox.public:checked:before {
     content: "\f13e   Public";
 }
+
+#note-list {
+    margin-right: 0px;
+    margin-left: 0px;
+}
