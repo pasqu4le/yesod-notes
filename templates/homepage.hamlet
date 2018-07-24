@@ -72,14 +72,47 @@
             <a .button.is-success href=@{CookiesR}>Read More
 
 <section #about .hero.is-medium.is-light>
-    <div .hero-body.container>
-        <div .has-text-centered.content>
+    <div .hero-body.container.has-text-centered>
+        <div .content>
             <h1>About
-            <p>This website is a toy project that I made to get familiar with the Yesod Web Framework
-            <p>It's open source. If you'd like to know more, make a suggestion or open up an issue:
-            <a .button.is-dark href="https://github.com/pasqu4le/yesod-notes">
-                <span .icon>
-                    <i .fab.fa-github-alt>
-                <span>Github Page
+            <p>
+                This website is a toy project that I made to get familiar with the 
+                <a .tag.is-info.is-medium.is-rounded href="https://www.yesodweb.com">Yesod Web Framework
+            <p>It's open source. If you'd like to know more, make a suggestion or open up an issue 
+                <a .tag.is-dark.is-medium.is-rounded href="https://github.com/pasqu4le/yesod-notes">
+                    <span>Visit the Github Page
+                    <span .icon>
+                        <i .fab.fa-github-alt>
+            <p>Also, I'm looking for a remote Haskell job. If by any chance you have one and you are interested 
+                <a .tag.is-danger.is-medium.is-rounded href="mailto:pasqu4le@gmail.com">
+                    <span>Toss me an email
+                    <span .icon>
+                        <i .fas.fa-envelope>
 
-            <h1>TODO: CREDITS
+            <h1>Credits
+            <p .subtitle>Special thanks goes to:
+            <div .panel>
+                <a .panel-block href="https://bulma.io">
+                    <span .panel-icon>
+                        <i .fab.fa-css3 aria-hidden="true">
+                    Jeremy Thomas for the Bulma CSS Framework 
+                <a .panel-block href="https://www.iconfinder.com/icons/315163/note_icon">
+                    <span .panel-icon>
+                        <i .fas.fa-image aria-hidden="true">
+                    Yannick Lung for the note icon
+                <a .panel-block href="https://realfavicongenerator.net/">
+                    <span .panel-icon>
+                        <i .fas.fa-file-image aria-hidden="true">
+                    Realfavicongenerator.net for avoiding icon-related headaches
+                <a .panel-block href="https://www.inserthtml.com/2012/04/css-click-states/">
+                    <span .panel-icon>
+                        <i .fas.fa-external-link-alt aria-hidden="true">
+                    Inserthtml.com for explaning the css trick to use click states without Javascript
+                <a .panel-block href="https://github.com/voodootikigod/logo.js/blob/master/js.png">
+                    <span .panel-icon>
+                        <i .fas.fa-code-branch aria-hidden="true">
+                    Chris Williams for the unofficial JavaScript logo
+                <a .panel-block href="https://www.youtube.com/watch?v=TDI2ViYw4KY">
+                    <span .panel-icon>
+                        <i .fab.fa-youtube aria-hidden="true">
+                    Logos By Nick for inspiring the note stack image with an awesome Inkscape tutorial

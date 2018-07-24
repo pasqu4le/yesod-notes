@@ -49,7 +49,7 @@ $else
 <!-- Footer -->
 <footer .footer>
     <div .content.has-text-centered>
-        <p>#{appCopyright $ appSettings master}
+        <p .subtitle>#{appCopyright $ appSettings master}
 
 $if not cookiesAccepted
     ^{cookiesWidget}
