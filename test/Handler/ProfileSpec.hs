@@ -8,21 +8,15 @@ spec :: Spec
 spec = withApp $ do
 
     describe "Profile page" $ do
-        it "asserts no access to my-account for anonymous users" $ do
+        it "redirect anonymous users to login page" $ do
             get ProfileR
-            statusIs 403
+            location <- getLocation
+            assertEq "redirected to login page" (Right (AuthR LoginR)) location
 
-        it "asserts access to my-account for authenticated users" $ do
+        it "authenticated users will receive their profile page" $ do
             userEntity <- createUser "foo"
             authenticateAs userEntity
 
             get ProfileR
             statusIs 200
-
-        it "asserts user's information is shown" $ do
-            userEntity <- createUser "bar"
-            authenticateAs userEntity
-
-            get ProfileR
-            let (Entity _ user) = userEntity
-            htmlAnyContain ".username" . unpack $ userIdent user
+            htmlAnyContain "h1" "Hey there!"
