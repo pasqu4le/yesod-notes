@@ -44,7 +44,7 @@
     content: "\f13e   Public";
 }
 
-#note-list {
+.no-side-margins {
     margin-right: 0px;
     margin-left: 0px;
 }

@@ -1,4 +1,4 @@
-<div .columns>
+<div .columns.no-side-margins>
     <div .column>
         <div .box>
             <h1 .title.has-text-centered>OAuth 2.0

@@ -47,9 +47,8 @@ $else
         ^{widget}
 
 <!-- Footer -->
-<footer .footer>
-    <div .content.has-text-centered>
-        <p .subtitle>#{appCopyright $ appSettings master}
+<footer .footer.has-text-centered>
+    <a .tag.is-medium href="https://github.com/pasqu4le/yesod-notes">#{appCopyright $ appSettings master}
 
 $if not cookiesAccepted
     ^{cookiesWidget}

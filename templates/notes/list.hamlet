@@ -5,7 +5,7 @@
 
 ^{newNoteWidget}
 
-<div #note-list .columns.is-multiline.is-centered>
+<div #note-list .columns.no-side-margins.is-multiline.is-centered>
     $forall Entity nId note <- noteList
         <div .column.is-half-tablet.is-one-third-desktop.is-one-quarter-fullhd>
             ^{noteTileWidget note nId}
